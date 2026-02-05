@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Main page with language alternates -->
+  <url>
+    <loc>https://modern-tour.dev/</loc>
+    <lastmod>2026-02-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    
+    <!-- Language alternates (hreflang) -->
+    <xhtml:link rel="alternate" hreflang="en" href="https://modern-tour.dev/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://modern-tour.dev/?lang=vi"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://modern-tour.dev/?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://modern-tour.dev/"/>
+    
+    <!-- Image for image sitemap -->
+    <image:image>
+      <image:loc>https://modern-tour.dev/shoes.png</image:loc>
+      <image:title>Modern Tour Logo</image:title>
+      <image:caption>Modern Tour - Interactive User Onboarding Library for React</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://modern-tour.dev/og-image.png</image:loc>
+      <image:title>Modern Tour Open Graph Image</image:title>
+      <image:caption>Modern Tour - Beautiful Product Tours with Physics-based Animations</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- English version -->
+  <url>
+    <loc>https://modern-tour.dev/?lang=en</loc>
+    <lastmod>2026-02-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://modern-tour.dev/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://modern-tour.dev/?lang=vi"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://modern-tour.dev/?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://modern-tour.dev/"/>
+  </url>
+  
+  <!-- Vietnamese version -->
+  <url>
+    <loc>https://modern-tour.dev/?lang=vi</loc>
+    <lastmod>2026-02-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://modern-tour.dev/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://modern-tour.dev/?lang=vi"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://modern-tour.dev/?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://modern-tour.dev/"/>
+  </url>
+  
+  <!-- Chinese version -->
+  <url>
+    <loc>https://modern-tour.dev/?lang=zh</loc>
+    <lastmod>2026-02-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://modern-tour.dev/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://modern-tour.dev/?lang=vi"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://modern-tour.dev/?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://modern-tour.dev/"/>
+  </url>
+  
+</urlset>

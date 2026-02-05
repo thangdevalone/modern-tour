@@ -1,0 +1,35 @@
+# Modern Tour - robots.txt
+# https://modern-tour.dev/
+
+# Allow all search engines to crawl the entire site
+User-agent: *
+Allow: /
+
+# Specific search engine rules
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+User-agent: Yandex
+Allow: /
+Crawl-delay: 2
+
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 2
+
+# Disallow crawling of development/build files
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /dist/
+Disallow: /src/
+
+# Sitemap location
+Sitemap: https://modern-tour.dev/sitemap.xml
+
+# Host directive (for Yandex)
+Host: https://modern-tour.dev

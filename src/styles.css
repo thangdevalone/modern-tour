@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+:root {
+  /* Shadcn Zinc Palette Light */
+  --tour-bg: #ffffff;
+  --tour-text: #09090b;
+  /* zinc-950 */
+  --tour-text-secondary: #71717a;
+  /* zinc-500 */
+  --tour-text-muted: #a1a1aa;
+  /* zinc-400 */
+  --tour-accent: #18181b;
+  /* zinc-900 Monochrome accent */
+
+  /* Primary Action (Black in Light Mode) */
+  --tour-primary: #18181b;
+  /* zinc-900 */
+  --tour-primary-foreground: #fafafa;
+  /* zinc-50 */
+
+  /* Secondary/Outline/Ghost */
+  --tour-secondary: #f4f4f5;
+  /* zinc-100 */
+  --tour-secondary-foreground: #18181b;
+  /* zinc-900 */
+  --tour-secondary-hover: #e4e4e7;
+  /* zinc-200 */
+
+  /* Border & Separation */
+  --tour-border: #e4e4e7;
+  /* zinc-200 */
+
+  /* Overlay */
+  --tour-overlay: rgba(0, 0, 0, 0.6);
+  /* Slightly darker, cleaner overlay */
+
+  /* Dimensions & Effects */
+  --tour-radius: 0.5rem;
+  /* 8px - standard shadcn radius */
+  --tour-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --tour-shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* Z-index */
+  --tour-z-overlay: 9998;
+  --tour-z-tooltip: 9999;
+}
+
+/* Dark theme (Zinc Palette Dark) */
+[data-theme="dark"],
+.dark {
+  --tour-bg: #09090b;
+  /* zinc-950 */
+  --tour-text: #fafafa;
+  /* zinc-50 */
+  --tour-text-secondary: #a1a1aa;
+  /* zinc-400 */
+  --tour-text-muted: #71717a;
+  /* zinc-500 */
+  --tour-accent: #fafafa;
+  /* zinc-50 Monochrome accent */
+
+  /* Primary Action (White in Dark Mode) */
+  --tour-primary: #fafafa;
+  /* zinc-50 */
+  --tour-primary-foreground: #18181b;
+  /* zinc-900 */
+
+  /* Secondary/Outline */
+  --tour-secondary: #27272a;
+  /* zinc-800 */
+  --tour-secondary-foreground: #fafafa;
+  /* zinc-50 */
+  --tour-secondary-hover: #3f3f46;
+  /* zinc-700 */
+
+  --tour-border: #27272a;
+  /* zinc-800 */
+  --tour-overlay: rgba(0, 0, 0, 0.8);
+
+  --tour-shadow: 0 0 0 1px #27272a, 0 4px 6px -1px rgb(0 0 0 / 0.4);
+}
+
+/* Base reset for tour elements */
+.framer-tour-tooltip,
+.framer-tour-tooltip * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Smooth font rendering */
+.framer-tour-content {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: -0.015em;
+  /* Tighter tracking for modern look */
+}
+
+/* Focus styles */
+.framer-tour-btn:focus-visible {
+  outline: 2px solid var(--tour-primary);
+  outline-offset: 2px;
+}
+
+/* Animations for progress */
+.framer-tour-progress-dot {
+  will-change: transform, background-color;
+}
+
+/* Prevent body scroll when tour is active (optional) */
+body.framer-tour-active {
+  overflow: hidden;
+}
