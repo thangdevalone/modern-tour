@@ -13,7 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: write
       id-token: write
 
     steps:
@@ -40,37 +39,28 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Check for changesets
-        id: check-changesets
+      - name: Check if version should be published
+        id: check-version
         run: |
-          if ls .changeset/*.md 1> /dev/null 2>&1; then
-            # Check if there are any changeset files other than README.md
-            CHANGESETS=$(ls .changeset/*.md 2>/dev/null | grep -v README.md | wc -l)
-            if [ "$CHANGESETS" -gt 0 ]; then
-              echo "has_changesets=true" >> $GITHUB_OUTPUT
-            else
-              echo "has_changesets=false" >> $GITHUB_OUTPUT
-            fi
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          
+          # Get the latest version from npm (returns error if package doesn't exist)
+          NPM_VERSION=$(npm view $PACKAGE_NAME version 2>/dev/null || echo "0.0.0")
+          
+          echo "Package version: $PACKAGE_VERSION"
+          echo "NPM version: $NPM_VERSION"
+          
+          if [ "$PACKAGE_VERSION" != "$NPM_VERSION" ]; then
+            echo "should_publish=true" >> $GITHUB_OUTPUT
+            echo "Version $PACKAGE_VERSION is not on npm, will publish"
           else
-            echo "has_changesets=false" >> $GITHUB_OUTPUT
+            echo "should_publish=false" >> $GITHUB_OUTPUT
+            echo "Version $PACKAGE_VERSION already on npm, skipping publish"
           fi
 
-      - name: Version packages
-        if: steps.check-changesets.outputs.has_changesets == 'true'
-        run: |
-          pnpm changeset version
-          
-      - name: Commit version changes
-        if: steps.check-changesets.outputs.has_changesets == 'true'
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git commit -m "chore: version packages" || echo "No changes to commit"
-          git push
-
       - name: Publish to npm
-        if: steps.check-changesets.outputs.has_changesets == 'true'
+        if: steps.check-version.outputs.should_publish == 'true'
         run: pnpm release
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
