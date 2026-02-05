@@ -181,12 +181,12 @@ const LandingPage = ({
                             <p className="text-xl">{t.animations.subtitle}</p>
                         </div>
 
-                        <div className="grid md:grid-cols-5 gap-4 mb-8">
+                        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 mb-8">
                             {(['fade', 'scale', 'slide', 'bounce', 'smooth'] as const).map((anim) => (
                                 <button
                                     key={anim}
                                     onClick={() => setCurrentAnimation(anim)}
-                                    className={`neo-btn ${currentAnimation === anim ? 'neo-btn-accent' : 'neo-btn-secondary'} py-3 uppercase font-bold text-sm`}
+                                    className={`neo-btn ${currentAnimation === anim ? 'neo-btn-accent' : 'neo-btn-secondary'} py-2 md:py-3 uppercase font-bold text-xs md:text-sm`}
                                     style={{ color: currentAnimation === anim ? '#000' : 'var(--neo-text)' }}
                                 >
                                     {anim}
@@ -212,19 +212,19 @@ const LandingPage = ({
                 </section>
 
                 {/* Configuration Examples */}
-                <section className="py-20 bg-[var(--neo-bg)]">
-                    <div className="container mx-auto px-6">
-                        <div className="mb-12 text-center">
-                            <h2 className="text-4xl md:text-5xl font-black uppercase mb-4 flex items-center justify-center gap-3">
-                                <Settings size={40} /> {t.config.title}
+                <section className="py-16 md:py-20 bg-[var(--neo-bg)]">
+                    <div className="container mx-auto px-4 md:px-6">
+                        <div className="mb-8 md:mb-12 text-center">
+                            <h2 className="text-3xl md:text-5xl font-black uppercase mb-4 flex items-center justify-center gap-2 md:gap-3">
+                                <Settings size={32} className="md:w-10 md:h-10" /> {t.config.title}
                             </h2>
-                            <p className="text-xl">{t.config.subtitle}</p>
+                            <p className="text-lg md:text-xl">{t.config.subtitle}</p>
                         </div>
 
-                        <div className="grid md:grid-cols-2 gap-8">
-                            <div className="neo-box p-6 bg-[var(--neo-card)]">
-                                <h3 className="text-2xl font-bold mb-4 border-b-2 border-[var(--neo-border)] pb-2 uppercase">{t.config.basic}</h3>
-                                <pre className="bg-[#1e1e1e] text-gray-300 p-4 rounded text-sm overflow-x-auto border-2 border-[var(--neo-border)]">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+                            <div className="neo-box p-4 md:p-6 bg-[var(--neo-card)]">
+                                <h3 className="text-lg md:text-2xl font-bold mb-3 md:mb-4 border-b-2 border-[var(--neo-border)] pb-2 uppercase">{t.config.basic}</h3>
+                                <pre className="bg-[#1e1e1e] text-gray-300 p-3 md:p-4 rounded text-xs md:text-sm overflow-x-auto border-2 border-[var(--neo-border)]">
                                     {`<TourProvider options={{
   steps: [
     { target: '#btn', content: 'Click me!' }
@@ -237,9 +237,9 @@ const LandingPage = ({
                                 </pre>
                             </div>
 
-                            <div className="neo-box p-6 bg-[var(--neo-card)]">
-                                <h3 className="text-2xl font-bold mb-4 border-b-2 border-[var(--neo-border)] pb-2 uppercase">{t.config.labels}</h3>
-                                <pre className="bg-[#1e1e1e] text-gray-300 p-4 rounded text-sm overflow-x-auto border-2 border-[var(--neo-border)]">
+                            <div className="neo-box p-4 md:p-6 bg-[var(--neo-card)]">
+                                <h3 className="text-lg md:text-2xl font-bold mb-3 md:mb-4 border-b-2 border-[var(--neo-border)] pb-2 uppercase">{t.config.labels}</h3>
+                                <pre className="bg-[#1e1e1e] text-gray-300 p-3 md:p-4 rounded text-xs md:text-sm overflow-x-auto border-2 border-[var(--neo-border)]">
                                     {`options={{
   labels: {
     next: 'Continue →',
@@ -251,9 +251,9 @@ const LandingPage = ({
                                 </pre>
                             </div>
 
-                            <div className="neo-box p-6 bg-[var(--neo-card)]">
-                                <h3 className="text-2xl font-bold mb-4 border-b-2 border-[var(--neo-border)] pb-2 uppercase">{t.config.customAnim}</h3>
-                                <pre className="bg-[#1e1e1e] text-gray-300 p-4 rounded text-sm overflow-x-auto border-2 border-[var(--neo-border)]">
+                            <div className="neo-box p-4 md:p-6 bg-[var(--neo-card)]">
+                                <h3 className="text-lg md:text-2xl font-bold mb-3 md:mb-4 border-b-2 border-[var(--neo-border)] pb-2 uppercase">{t.config.customAnim}</h3>
+                                <pre className="bg-[#1e1e1e] text-gray-300 p-3 md:p-4 rounded text-xs md:text-sm overflow-x-auto border-2 border-[var(--neo-border)]">
                                     {`animation: {
   initial: { opacity: 0, x: -20 },
   animate: { opacity: 1, x: 0 },
@@ -266,9 +266,9 @@ const LandingPage = ({
                                 </pre>
                             </div>
 
-                            <div className="neo-box p-6 bg-[var(--neo-card)]">
-                                <h3 className="text-2xl font-bold mb-4 border-b-2 border-[var(--neo-border)] pb-2 uppercase">{t.config.theming}</h3>
-                                <pre className="bg-[#1e1e1e] text-gray-300 p-4 rounded text-sm overflow-x-auto border-2 border-[var(--neo-border)]">
+                            <div className="neo-box p-4 md:p-6 bg-[var(--neo-card)]">
+                                <h3 className="text-lg md:text-2xl font-bold mb-3 md:mb-4 border-b-2 border-[var(--neo-border)] pb-2 uppercase">{t.config.theming}</h3>
+                                <pre className="bg-[#1e1e1e] text-gray-300 p-3 md:p-4 rounded text-xs md:text-sm overflow-x-auto border-2 border-[var(--neo-border)]">
                                     {`:root {
   --tour-bg: #ffffff;
   --tour-text: #000000;
@@ -403,6 +403,8 @@ function MyApp() {
         @media (min-width: 1024px) { .container { max-width: 1024px; } }
         @media (min-width: 1280px) { .container { max-width: 1280px; } }
         .grid { display: grid; }
+        .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .flex { display: flex; }
         .hidden { display: none; }
         .inline { display: inline; }
@@ -434,11 +436,13 @@ function MyApp() {
         .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
         .px-8 { padding-left: 2rem; padding-right: 2rem; }
         .py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+        .py-16 { padding-top: 4rem; padding-bottom: 4rem; }
         .py-20 { padding-top: 5rem; padding-bottom: 5rem; }
         .pt-4 { padding-top: 1rem; }
         .pl-6 { padding-left: 1.5rem; }
         .pb-2 { padding-bottom: 0.5rem; }
         .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
         .mb-4 { margin-bottom: 1rem; }
         .mb-6 { margin-bottom: 1.5rem; }
         .mb-8 { margin-bottom: 2rem; }
@@ -466,6 +470,7 @@ function MyApp() {
         .text-lg { font-size: 1.125rem; }
         .text-xl { font-size: 1.25rem; }
         .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
         .text-4xl { font-size: 2.25rem; }
         .text-5xl { font-size: 3rem; }
         .relative { position: relative; }
@@ -508,11 +513,26 @@ function MyApp() {
           .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
           .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
           .md\:grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+          .md\:text-sm { font-size: 0.875rem; }
+          .md\:text-lg { font-size: 1.125rem; }
+          .md\:text-xl { font-size: 1.25rem; }
           .md\:text-2xl { font-size: 1.5rem; }
           .md\:text-5xl { font-size: 3rem; }
           .md\:text-7xl { font-size: 4.5rem; }
+          .md\:py-20 { padding-top: 5rem; padding-bottom: 5rem; }
           .md\:py-32 { padding-top: 8rem; padding-bottom: 8rem; }
+          .md\:py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+          .md\:px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+          .md\:p-4 { padding: 1rem; }
+          .md\:p-6 { padding: 1.5rem; }
           .md\:p-8 { padding: 2rem; }
+          .md\:mb-4 { margin-bottom: 1rem; }
+          .md\:mb-12 { margin-bottom: 3rem; }
+          .md\:gap-3 { gap: 0.75rem; }
+          .md\:gap-4 { gap: 1rem; }
+          .md\:gap-8 { gap: 2rem; }
+          .md\:w-10 { width: 2.5rem; }
+          .md\:h-10 { height: 2.5rem; }
         }
         @media (min-width: 1024px) {
           .lg\:w-1\/3 { width: 33.333333%; }

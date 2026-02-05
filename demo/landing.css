@@ -32,6 +32,7 @@ body {
     color: var(--neo-text);
     font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
     transition: background-color 0.3s, color 0.3s;
+    overflow-x: hidden;
 }
 
 /* Base Neo Components */
