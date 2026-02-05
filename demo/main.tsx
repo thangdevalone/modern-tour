@@ -75,7 +75,7 @@ const LandingPage = ({
                             <a href="https://github.com/thangdevalone/modern-tour" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--neo-primary)] transition-colors">{t.nav.github}</a>
                         </nav>
 
-                        <div id="theme-toggle" className="flex items-center gap-2">
+                        <div id="theme-toggle" className="flex items-center">
                             <button
                                 onClick={() => setIsDark(!isDark)}
                                 className="w-12 h-12 flex items-center justify-center border-[3px] border-[var(--neo-border)] bg-[var(--neo-card)] transition-all active:translate-y-1 active:shadow-none shadow-[4px_4px_0_var(--neo-shadow)] hover:bg-[var(--neo-secondary)]"
@@ -86,18 +86,17 @@ const LandingPage = ({
                             </button>
 
                             {/* GitHub Button */}
-                            <a
-                                href="https://github.com/thangdevalone/modern-tour"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="w-12 h-12 flex items-center justify-center border-[3px] border-[var(--neo-border)] bg-[var(--neo-card)] transition-all active:translate-y-1 active:shadow-none shadow-[4px_4px_0_var(--neo-shadow)] hover:bg-[var(--neo-text)] hover:text-[var(--neo-bg)]"
-                                aria-label="GitHub Repository"
-                                style={{ color: 'var(--neo-text)' }}
-                            >
-                                <Github size={24} />
-                            </a>
-                        </div>
 
+                        </div>
+                        <a
+                            href="https://github.com/thangdevalone/modern-tour"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-12 h-12 flex items-center justify-center border-[3px] border-[var(--neo-border)] bg-[var(--neo-card)] transition-all active:translate-y-1 active:shadow-none shadow-[4px_4px_0_var(--neo-shadow)] hover:bg-[var(--neo-text)] hover:text-[var(--neo-bg)] text-[var(--neo-text)]"
+                            aria-label="GitHub Repository"
+                        >
+                            <Github size={24} />
+                        </a>
                         {/* Language Switcher */}
                         <button
                             onClick={() => setLang(nextLang[lang])}
