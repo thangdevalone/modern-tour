@@ -1,5 +1,5 @@
 # Modern Tour - robots.txt
-# https://modern-tour.dev/
+# https://tour.modern-ui.org/
 
 # Allow all search engines to crawl the entire site
 User-agent: *
@@ -29,7 +29,7 @@ Disallow: /dist/
 Disallow: /src/
 
 # Sitemap location
-Sitemap: https://modern-tour.dev/sitemap.xml
+Sitemap: https://tour.modern-ui.org/sitemap.xml
 
 # Host directive (for Yandex)
-Host: https://modern-tour.dev
+Host: https://tour.modern-ui.org

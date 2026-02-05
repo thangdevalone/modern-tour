@@ -446,14 +446,14 @@ export function updateSEOMeta(lang: Language): void {
     updateMeta('meta[property="og:title"]', seo.ogTitle);
     updateMeta('meta[property="og:description"]', seo.ogDescription);
     updateMeta('meta[property="og:locale"]', localeMap[lang]);
-    updateMeta('meta[property="og:url"]', `https://modern-tour.dev/?lang=${lang}`);
+    updateMeta('meta[property="og:url"]', `https://tour.modern-ui.org/?lang=${lang}`);
 
     // Twitter
     updateMeta('meta[name="twitter:title"]', seo.twitterTitle);
     updateMeta('meta[name="twitter:description"]', seo.twitterDescription);
-    updateMeta('meta[name="twitter:url"]', `https://modern-tour.dev/?lang=${lang}`);
+    updateMeta('meta[name="twitter:url"]', `https://tour.modern-ui.org/?lang=${lang}`);
 
     // Update canonical URL based on language
-    updateLink('link[rel="canonical"]', `https://modern-tour.dev/?lang=${lang}`);
+    updateLink('link[rel="canonical"]', `https://tour.modern-ui.org/?lang=${lang}`);
 }
 

@@ -72,16 +72,16 @@
     "tooltip",
     "spotlight"
   ],
-  "author": "",
+  "author": "thangdevalone",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+https://github.com/thangdevalone/modern-tour.git"
   },
   "bugs": {
-    "url": ""
+    "url": "https://github.com/thangdevalone/modern-tour/issues"
   },
-  "homepage": "",
+  "homepage": "https://tour.modern-ui.org",
   "dependencies": {
     "@floating-ui/react": "^0.27.17",
     "@tailwindcss/vite": "^4.1.18",
