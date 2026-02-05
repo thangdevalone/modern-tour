@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { TourProvider, useTour, TourStep } from '../src';
 import '../src/styles.css';
 import './landing.css';
-import { Moon, Sun, Play, Package, Code, Layers, Github, Zap, Box, Sparkles, Settings, Palette, Rocket, Globe } from 'lucide-react';
+import { Moon, Sun, Play, Package, Code, Layers, Github, Zap, Box, Sparkles, Settings, Palette, Rocket, Globe, Copy, Check } from 'lucide-react';
 import { translations, type Language, type Translations, updateSEOMeta } from './i18n';
 
 // --- Neo Components ---
@@ -54,21 +54,32 @@ const LandingPage = ({
 
     const langLabels: Record<Language, string> = { en: 'EN', vi: 'VI', zh: '中' };
     const nextLang: Record<Language, Language> = { en: 'vi', vi: 'zh', zh: 'en' };
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = async () => {
+        try {
+            await navigator.clipboard.writeText('npm i modern-tour');
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } catch (err) {
+            console.error('Failed to copy:', err);
+        }
+    };
 
     return (
         <div className="min-h-screen flex flex-col font-mono selection:bg-[var(--neo-primary)] selection:text-white">
 
             {/* Header */}
             <header className="border-b-[3px] border-[var(--neo-border)] sticky top-0 z-40 bg-[var(--neo-bg)]">
-                <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-                    <div id="logo-area" className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-[var(--neo-primary)] border-[3px] border-[var(--neo-border)] shadow-[3px_3px_0_var(--neo-shadow)] flex items-center justify-center overflow-hidden">
-                            <img src="/shoes.png" alt="Modern Tour Logo" className="w-8 h-8 object-contain" />
+                <div className="container mx-auto px-3 md:px-6 h-16 md:h-20 flex items-center justify-between">
+                    <div id="logo-area" className="flex items-center gap-2 md:gap-3">
+                        <div className="w-8 h-8 md:w-10 md:h-10 bg-[var(--neo-primary)] border-[2px] md:border-[3px] border-[var(--neo-border)] shadow-[2px_2px_0_var(--neo-shadow)] md:shadow-[3px_3px_0_var(--neo-shadow)] flex items-center justify-center overflow-hidden">
+                            <img src="/shoes.png" alt="Modern Tour Logo" className="w-6 h-6 md:w-8 md:h-8 object-contain" />
                         </div>
-                        <span className="text-2xl font-black uppercase tracking-tighter">Modern Tour</span>
+                        <span className="hidden sm:block text-xl md:text-2xl font-black uppercase tracking-tighter">Modern Tour</span>
                     </div>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2 md:gap-4">
                         <nav id="nav-links" className="hidden md:flex gap-6 font-bold uppercase text-sm">
                             <a href="#animations" className="hover:text-[var(--neo-primary)] transition-colors">{t.nav.animations}</a>
                             <a href="#docs" className="hover:text-[var(--neo-primary)] transition-colors">{t.nav.docs}</a>
@@ -78,11 +89,11 @@ const LandingPage = ({
                         <div id="theme-toggle" className="flex items-center">
                             <button
                                 onClick={() => setIsDark(!isDark)}
-                                className="w-12 h-12 flex items-center justify-center border-[3px] border-[var(--neo-border)] bg-[var(--neo-card)] transition-all active:translate-y-1 active:shadow-none shadow-[4px_4px_0_var(--neo-shadow)] hover:bg-[var(--neo-secondary)]"
+                                className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center border-[2px] md:border-[3px] border-[var(--neo-border)] bg-[var(--neo-card)] transition-all active:translate-y-1 active:shadow-none shadow-[3px_3px_0_var(--neo-shadow)] md:shadow-[4px_4px_0_var(--neo-shadow)] hover:bg-[var(--neo-secondary)]"
                                 aria-label="Toggle Theme"
                                 style={{ color: 'var(--neo-text)' }}
                             >
-                                {isDark ? <Sun size={24} /> : <Moon size={24} />}
+                                {isDark ? <Sun size={20} className="md:w-6 md:h-6" /> : <Moon size={20} className="md:w-6 md:h-6" />}
                             </button>
 
                             {/* GitHub Button */}
@@ -92,15 +103,15 @@ const LandingPage = ({
                             href="https://github.com/thangdevalone/modern-tour"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-12 h-12 flex items-center justify-center border-[3px] border-[var(--neo-border)] bg-[var(--neo-card)] transition-all active:translate-y-1 active:shadow-none shadow-[4px_4px_0_var(--neo-shadow)] hover:bg-[var(--neo-text)] hover:text-[var(--neo-bg)] text-[var(--neo-text)]"
+                            className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center border-[2px] md:border-[3px] border-[var(--neo-border)] bg-[var(--neo-card)] transition-all active:translate-y-1 active:shadow-none shadow-[3px_3px_0_var(--neo-shadow)] md:shadow-[4px_4px_0_var(--neo-shadow)] hover:bg-[var(--neo-text)] hover:text-[var(--neo-bg)] text-[var(--neo-text)]"
                             aria-label="GitHub Repository"
                         >
-                            <Github size={24} />
+                            <Github size={20} className="md:w-6 md:h-6" />
                         </a>
                         {/* Language Switcher */}
                         <button
                             onClick={() => setLang(nextLang[lang])}
-                            className="w-12 h-12 flex items-center justify-center border-[3px] border-[var(--neo-border)] bg-[var(--neo-card)] transition-all active:translate-y-1 active:shadow-none shadow-[4px_4px_0_var(--neo-shadow)] hover:bg-[var(--neo-accent)] font-bold text-sm"
+                            className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center border-[2px] md:border-[3px] border-[var(--neo-border)] bg-[var(--neo-card)] transition-all active:translate-y-1 active:shadow-none shadow-[3px_3px_0_var(--neo-shadow)] md:shadow-[4px_4px_0_var(--neo-shadow)] hover:bg-[var(--neo-accent)] font-bold text-xs md:text-sm"
                             aria-label="Switch Language"
                             style={{ color: 'var(--neo-text)' }}
                         >
@@ -143,8 +154,8 @@ const LandingPage = ({
                                 <NeoButton id="hero-cta" onClick={() => start()} className="text-lg md:text-xl py-3 px-6 md:py-4 md:px-8">
                                     <Rocket size={24} /> {t.hero.cta}
                                 </NeoButton>
-                                <NeoButton variant="secondary" className="text-lg md:text-xl py-3 px-6 md:py-4 md:px-8">
-                                    <Package size={24} /> {t.hero.install}
+                                <NeoButton variant="secondary" onClick={handleCopy} className="text-lg md:text-xl py-3 px-6 md:py-4 md:px-8">
+                                    {copied ? <Check size={24} /> : <Copy size={24} />} {t.hero.install}
                                 </NeoButton>
                             </div>
                         </div>
@@ -455,10 +466,17 @@ function MyApp() {
         .w-full { width: 100%; }
         .w-3 { width: 0.75rem; }
         .h-3 { height: 0.75rem; }
+        .w-6 { width: 1.5rem; }
+        .h-6 { height: 1.5rem; }
         .w-8 { width: 2rem; }
         .h-8 { height: 2rem; }
+        .w-10 { width: 2.5rem; }
+        .h-10 { height: 2.5rem; }
         .w-12 { width: 3rem; }
         .h-12 { height: 3rem; }
+        .h-16 { height: 4rem; }
+        .h-20 { height: 5rem; }
+        .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
         .min-h-screen { min-height: 100vh; }
         .font-bold { font-weight: 700; }
         .font-black { font-weight: 900; }
@@ -505,6 +523,7 @@ function MyApp() {
         
         @media (min-width: 640px) {
           .sm\:flex-row { flex-direction: row; }
+          .sm\:block { display: block; }
         }
         @media (min-width: 768px) {
           .md\:block { display: block; }
@@ -513,6 +532,7 @@ function MyApp() {
           .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
           .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
           .md\:grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+          .md\:text-xs { font-size: 0.75rem; }
           .md\:text-sm { font-size: 0.875rem; }
           .md\:text-lg { font-size: 1.125rem; }
           .md\:text-xl { font-size: 1.25rem; }
@@ -522,7 +542,9 @@ function MyApp() {
           .md\:py-20 { padding-top: 5rem; padding-bottom: 5rem; }
           .md\:py-32 { padding-top: 8rem; padding-bottom: 8rem; }
           .md\:py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+          .md\:py-4 { padding-top: 1rem; padding-bottom: 1rem; }
           .md\:px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+          .md\:px-8 { padding-left: 2rem; padding-right: 2rem; }
           .md\:p-4 { padding: 1rem; }
           .md\:p-6 { padding: 1.5rem; }
           .md\:p-8 { padding: 2rem; }
@@ -531,8 +553,15 @@ function MyApp() {
           .md\:gap-3 { gap: 0.75rem; }
           .md\:gap-4 { gap: 1rem; }
           .md\:gap-8 { gap: 2rem; }
+          .md\:w-6 { width: 1.5rem; }
+          .md\:h-6 { height: 1.5rem; }
+          .md\:w-8 { width: 2rem; }
+          .md\:h-8 { height: 2rem; }
           .md\:w-10 { width: 2.5rem; }
           .md\:h-10 { height: 2.5rem; }
+          .md\:w-12 { width: 3rem; }
+          .md\:h-12 { height: 3rem; }
+          .md\:h-20 { height: 5rem; }
         }
         @media (min-width: 1024px) {
           .lg\:w-1\/3 { width: 33.333333%; }
