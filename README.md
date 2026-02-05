@@ -1,33 +1,27 @@
 # Modern Tour
 
-A beautiful, animated, and fully customizable product tour library for React.
-
-![Modern Tour Demo](https://via.placeholder.com/800x400?text=Modern+Tour+Demo)
+A lightweight, animated product tour library for React. Built with Framer Motion for smooth transitions and smart positioning.
 
 ## Features
 
-- 🎨 **Shadcn UI Style** - Clean, monochrome, professional design by default
-- ⚡ **Framer Motion powered** - Snappy & smooth transitions using spring physics
-- 🎯 **Smart positioning** - Auto-adjusts tooltip position to avoid overflow
-- ⌨️ **Keyboard navigation** - Arrow keys, Enter, and Escape support
-- 🌙 **Dark mode ready** - CSS variables for easy theming
-- 🧩 **Headless capable** - Use `useTour` hook for 100% custom UI
-- 📦 **Neo-Brutalism Ready** - Supports bold styling via CSS variables (see demo)
+- **Smooth Animations** - Powered by Framer Motion with spring physics
+- **Smart Positioning** - Auto-adjusts tooltip position to stay in viewport
+- **Keyboard Support** - Navigate with arrow keys, Enter, and Escape
+- **Dark Mode** - Easy theming with CSS variables
+- **Headless Mode** - Build your own UI with the `useTour` hook
+- **Neo-Brutalism** - Bold styling option via CSS variables
 
 ## Installation
 
 ```bash
-npm install modern-tour framer-motion
-# or
-pnpm add modern-tour framer-motion
+npm install modern-tour
 ```
 
 ## Quick Start
 
-1. Wrap your app with `TourProvider`:
+Wrap your app with `TourProvider`:
 
 ```tsx
-// main.tsx
 import { TourProvider } from 'modern-tour';
 import 'modern-tour/styles.css';
 
@@ -45,10 +39,9 @@ function App() {
 }
 ```
 
-2. Start the tour:
+Start the tour from any component:
 
 ```tsx
-// YourComponent.tsx
 import { useTour } from 'modern-tour';
 
 function YourComponent() {
@@ -60,11 +53,11 @@ function YourComponent() {
 
 ## Theming
 
-Modern Tour uses CSS variables. You can override them in your CSS:
+Override CSS variables to match your design:
 
 ```css
 :root {
-  /* Shadcn/Zinc Style (Default) */
+  /* Default Shadcn/Zinc Style */
   --tour-bg: #ffffff;
   --tour-text: #09090b;
   --tour-primary: #18181b;
@@ -79,6 +72,10 @@ Modern Tour uses CSS variables. You can override them in your CSS:
   --tour-shadow: 4px 4px 0px #000000;
 }
 ```
+
+## Demo
+
+Check out the live demo at [tour.modern-ui.org](https://tour.modern-ui.org)
 
 ## License
 
