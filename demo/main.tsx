@@ -72,10 +72,10 @@ const LandingPage = ({
                         <nav id="nav-links" className="hidden md:flex gap-6 font-bold uppercase text-sm">
                             <a href="#animations" className="hover:text-[var(--neo-primary)] transition-colors">{t.nav.animations}</a>
                             <a href="#docs" className="hover:text-[var(--neo-primary)] transition-colors">{t.nav.docs}</a>
-                            <a href="https://github.com" target="_blank" className="hover:text-[var(--neo-primary)] transition-colors">{t.nav.github}</a>
+                            <a href="https://github.com/thangdevalone/modern-tour" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--neo-primary)] transition-colors">{t.nav.github}</a>
                         </nav>
 
-                        <div id="theme-toggle">
+                        <div id="theme-toggle" className="flex items-center gap-2">
                             <button
                                 onClick={() => setIsDark(!isDark)}
                                 className="w-12 h-12 flex items-center justify-center border-[3px] border-[var(--neo-border)] bg-[var(--neo-card)] transition-all active:translate-y-1 active:shadow-none shadow-[4px_4px_0_var(--neo-shadow)] hover:bg-[var(--neo-secondary)]"
@@ -84,6 +84,18 @@ const LandingPage = ({
                             >
                                 {isDark ? <Sun size={24} /> : <Moon size={24} />}
                             </button>
+
+                            {/* GitHub Button */}
+                            <a
+                                href="https://github.com/thangdevalone/modern-tour"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-12 h-12 flex items-center justify-center border-[3px] border-[var(--neo-border)] bg-[var(--neo-card)] transition-all active:translate-y-1 active:shadow-none shadow-[4px_4px_0_var(--neo-shadow)] hover:bg-[var(--neo-text)] hover:text-[var(--neo-bg)]"
+                                aria-label="GitHub Repository"
+                                style={{ color: 'var(--neo-text)' }}
+                            >
+                                <Github size={24} />
+                            </a>
                         </div>
 
                         {/* Language Switcher */}
