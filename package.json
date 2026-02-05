@@ -1,6 +1,6 @@
 {
   "name": "modern-tour",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A beautiful, animated product tour library for React powered by Framer Motion",
   "type": "module",
   "main": "./dist/index.cjs",
