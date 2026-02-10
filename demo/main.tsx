@@ -399,9 +399,9 @@ function MyApp() {
                         <img src="/shoes.png" alt="Modern Tour" className="w-6 h-6" /> Modern Tour © 2026
                     </div>
                     <div className="flex gap-6 font-bold uppercase text-sm items-center">
-                        <a href="#" className="flex items-center gap-2 hover:text-[var(--neo-secondary)] transition-colors"><Github size={16} /> {t.nav.github}</a>
+                        <a href="https://github.com/thangdevalone/modern-tour" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[var(--neo-secondary)] transition-colors"><Github size={16} /> {t.nav.github}</a>
                         <a href="#docs" className="hover:text-[var(--neo-secondary)] transition-colors">{t.footer.docs}</a>
-                        <a href="#" className="hover:text-[var(--neo-secondary)] transition-colors">NPM</a>
+                        <a href="https://www.npmjs.com/package/modern-tour" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--neo-secondary)] transition-colors">NPM</a>
                     </div>
                 </div>
             </footer>
