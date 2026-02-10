@@ -118,14 +118,15 @@ function adjustPosition(
 }
 
 /**
- * Clamp a value to ensure tooltip stays within viewport
+ * Clamp tooltip position to viewport, avoiding overlap with the target element
  */
 function clampToViewport(
     left: number,
     top: number,
     tooltipWidth: number,
-    tooltipHeight: number
-): { left: number; top: number } {
+    tooltipHeight: number,
+    targetRect?: DOMRect
+): { left: number; top: number; maxHeight?: number } {
     const { innerWidth, innerHeight } = window;
 
     // Clamp horizontal
@@ -144,6 +145,46 @@ function clampToViewport(
         clampedTop = innerHeight - tooltipHeight - VIEWPORT_PADDING;
     }
 
+    // Check if the tooltip overlaps with the target element
+    if (targetRect) {
+        const tooltipBottom = clampedTop + tooltipHeight;
+        const tooltipRight = clampedLeft + tooltipWidth;
+
+        const overlapsVertically = clampedTop < targetRect.bottom && tooltipBottom > targetRect.top;
+        const overlapsHorizontally = clampedLeft < targetRect.right && tooltipRight > targetRect.left;
+
+        if (overlapsVertically && overlapsHorizontally) {
+            // Tooltip overlaps with target - reposition to avoid it
+            const spaceAbove = targetRect.top - TOOLTIP_OFFSET;
+            const spaceBelow = innerHeight - targetRect.bottom - TOOLTIP_OFFSET;
+
+            let maxHeight: number | undefined;
+
+            if (spaceBelow >= tooltipHeight) {
+                // Place below target
+                clampedTop = targetRect.bottom + TOOLTIP_OFFSET;
+            } else if (spaceAbove >= tooltipHeight) {
+                // Place above target
+                clampedTop = targetRect.top - TOOLTIP_OFFSET - tooltipHeight;
+            } else if (spaceBelow >= spaceAbove) {
+                // More space below - place below and constrain height
+                clampedTop = targetRect.bottom + TOOLTIP_OFFSET;
+                maxHeight = innerHeight - clampedTop - VIEWPORT_PADDING;
+            } else {
+                // More space above - place above and constrain height
+                maxHeight = spaceAbove - VIEWPORT_PADDING;
+                clampedTop = VIEWPORT_PADDING;
+            }
+
+            // Re-clamp vertical after repositioning
+            if (clampedTop < VIEWPORT_PADDING) {
+                clampedTop = VIEWPORT_PADDING;
+            }
+
+            return { left: clampedLeft, top: clampedTop, maxHeight };
+        }
+    }
+
     return { left: clampedLeft, top: clampedTop };
 }
 
@@ -153,7 +194,7 @@ function clampToViewport(
 export function Tooltip() {
     const { step, targetRect, options, currentStep } = useTour();
     const tooltipRef = useRef<HTMLDivElement>(null);
-    const [clampedPosition, setClampedPosition] = useState<{ left: number; top: number } | null>(null);
+    const [clampedPosition, setClampedPosition] = useState<{ left: number; top: number; maxHeight?: number } | null>(null);
 
     const animation = getAnimationConfig(options.animation);
 
@@ -172,7 +213,7 @@ export function Tooltip() {
 
     // Measure tooltip and clamp to viewport after render
     useLayoutEffect(() => {
-        if (!tooltipRef.current || !calculatedData) {
+        if (!tooltipRef.current || !calculatedData || !targetRect) {
             setClampedPosition(null);
             return;
         }
@@ -206,12 +247,17 @@ export function Tooltip() {
             initialTop -= tooltipHeight;
         }
 
-        // Clamp to viewport
-        const clamped = clampToViewport(initialLeft, initialTop, tooltipWidth, tooltipHeight);
+        // Clamp to viewport, avoiding target overlap
+        const clamped = clampToViewport(initialLeft, initialTop, tooltipWidth, tooltipHeight, targetRect);
         setClampedPosition(clamped);
-    }, [calculatedData, currentStep]);
+    }, [calculatedData, currentStep, targetRect]);
 
     if (!step || !targetRect || !calculatedData) return null;
+
+    // Calculate dynamic maxHeight
+    const dynamicMaxHeight = clampedPosition?.maxHeight
+        ? `${clampedPosition.maxHeight}px`
+        : 'calc(100vh - 40px)';
 
     return (
         <motion.div
@@ -226,7 +272,7 @@ export function Tooltip() {
                 position: 'fixed',
                 zIndex: 9999,
                 width: 'min(var(--tour-tooltip-width, 320px), calc(100vw - 32px))',
-                maxHeight: 'calc(100vh - 40px)',
+                maxHeight: dynamicMaxHeight,
                 display: 'flex',
                 flexDirection: 'column',
                 // Use clamped position if available, otherwise use calculated position with transform
@@ -253,6 +299,7 @@ export function Tooltip() {
                     boxShadow: 'var(--tour-shadow-lg, 0 10px 15px -3px rgb(0 0 0 / 0.1))',
                     border: '1px solid var(--tour-border, #e4e4e7)',
                     overflow: 'hidden',
+                    overflowY: clampedPosition?.maxHeight ? 'auto' : undefined,
                 }}
             >
                 <TourContent />
