@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom/client';
 import { TourProvider, useTour, TourStep } from '../src';
+import './demo.css';
 import '../src/styles.css';
 import './landing.css';
 import { Moon, Sun, Play, Package, Code, Layers, Github, Zap, Box, Sparkles, Settings, Palette, Rocket, Globe, Copy, Check } from 'lucide-react';
