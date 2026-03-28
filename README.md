@@ -77,6 +77,32 @@ Override CSS variables to match your design:
 
 Check out the live demo at [tour.modern-ui.org](https://tour.modern-ui.org)
 
+## CSS Classes Reference
+
+Use these classes to customize individual parts of the tour UI:
+
+| Element | CSS Class |
+|---------|-----------|
+| Next / "Got it!" button | `.framer-tour-btn-primary` |
+| Back button | `.framer-tour-btn-secondary` |
+| Close (×) button | `.framer-tour-close` |
+| All buttons (shared base) | `.framer-tour-btn` |
+| Tooltip content wrapper | `.framer-tour-content` |
+| Step title | `.framer-tour-title` |
+| Step description | `.framer-tour-description` |
+| Footer row | `.framer-tour-footer` |
+| Progress text ("Step 1 of 3") | `.framer-tour-progress` |
+| Navigation button group | `.framer-tour-navigation` |
+
+Example — make the Next/"Got it!" button blue:
+
+```css
+.framer-tour-btn-primary {
+  background: #2563eb !important;
+  color: #ffffff !important;
+}
+```
+
 ## License
 
 MIT
