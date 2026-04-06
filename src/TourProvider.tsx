@@ -71,38 +71,74 @@ export function TourProvider({ children, options }: TourProviderProps) {
             return;
         }
 
-        const target = document.querySelector(step.target);
-        if (!target) {
-            console.warn(`[framer-tour] Target element not found: ${step.target}`);
-            setTargetRect(null);
-            return;
+        let isCancelled = false;
+        let observer: MutationObserver | null = null;
+        let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+        const findAndSetTarget = () => {
+            if (isCancelled) return false;
+            const target = document.querySelector(step.target);
+            if (target) {
+                // Scroll target into view
+                target.scrollIntoView({
+                    behavior: mergedOptions.scrollBehavior,
+                    block: 'center',
+                    inline: 'center',
+                });
+
+                // Small delay to let scroll complete, then get rect
+                timeoutId = setTimeout(() => {
+                    if (isCancelled) return;
+                    const rect = target.getBoundingClientRect();
+                    setTargetRect(rect);
+                    step.onActive?.();
+                }, 100);
+
+                if (observer) {
+                    observer.disconnect();
+                }
+                return true;
+            }
+            return false;
+        };
+
+        // Try immediately
+        if (!findAndSetTarget()) {
+            // Setup mutation observer if not found immediately (e.g. page transiton)
+            observer = new MutationObserver(() => {
+                findAndSetTarget();
+            });
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true,
+                attributes: true,
+            });
+
+            // Timeout after 3 seconds if not found
+            timeoutId = setTimeout(() => {
+                if (isCancelled) return;
+                console.warn(`[modern-tour] Target element not found after 3s: ${step.target}`);
+                setTargetRect(null);
+                if (observer) observer.disconnect();
+            }, 3000);
         }
-
-        // Scroll target into view
-        target.scrollIntoView({
-            behavior: mergedOptions.scrollBehavior,
-            block: 'center',
-            inline: 'center',
-        });
-
-        // Small delay to let scroll complete, then get rect
-        const timer = setTimeout(() => {
-            const rect = target.getBoundingClientRect();
-            setTargetRect(rect);
-            step.onActive?.();
-        }, 100);
 
         // Observe resize/scroll to update position
         const updateRect = () => {
-            const rect = target.getBoundingClientRect();
-            setTargetRect(rect);
+            const target = document.querySelector(step.target);
+            if (target) {
+                const rect = target.getBoundingClientRect();
+                setTargetRect(rect);
+            }
         };
 
         window.addEventListener('resize', updateRect);
         window.addEventListener('scroll', updateRect, true);
 
         return () => {
-            clearTimeout(timer);
+            isCancelled = true;
+            if (timeoutId) clearTimeout(timeoutId);
+            if (observer) observer.disconnect();
             window.removeEventListener('resize', updateRect);
             window.removeEventListener('scroll', updateRect, true);
         };

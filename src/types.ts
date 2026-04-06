@@ -35,6 +35,8 @@ export interface TourStep {
     disableInteraction?: boolean;
     /** Custom spotlight padding */
     spotlightPadding?: number;
+    /** Route path for cross-page tours */
+    route?: string;
     /** Callback when step becomes active */
     onActive?: () => void;
     /** Callback when leaving this step */
@@ -55,6 +57,9 @@ export type AnimationValues = {
     x?: number;
     y?: number;
     rotate?: number;
+    rotateX?: number;
+    rotateY?: number;
+    rotateZ?: number;
 };
 
 /**

@@ -1,40 +1,34 @@
+/*
+ * Modern Tour - CSS Custom Properties & Base Styles
+ * Compatible with: Tailwind CSS v3, v4, vanilla CSS, or any framework.
+ * CSS variables are defined on :root and can be overridden by the consumer.
+ */
+
 :root {
   /* Shadcn Zinc Palette Light */
   --tour-bg: #ffffff;
   --tour-text: #09090b;
-  /* zinc-950 */
   --tour-text-secondary: #71717a;
-  /* zinc-500 */
   --tour-text-muted: #a1a1aa;
-  /* zinc-400 */
   --tour-accent: #18181b;
-  /* zinc-900 Monochrome accent */
 
   /* Primary Action (Black in Light Mode) */
   --tour-primary: #18181b;
-  /* zinc-900 */
   --tour-primary-foreground: #fafafa;
-  /* zinc-50 */
 
   /* Secondary/Outline/Ghost */
   --tour-secondary: #f4f4f5;
-  /* zinc-100 */
   --tour-secondary-foreground: #18181b;
-  /* zinc-900 */
   --tour-secondary-hover: #e4e4e7;
-  /* zinc-200 */
 
   /* Border & Separation */
   --tour-border: #e4e4e7;
-  /* zinc-200 */
 
   /* Overlay */
   --tour-overlay: rgba(0, 0, 0, 0.6);
-  /* Slightly darker, cleaner overlay */
 
   /* Dimensions & Effects */
   --tour-radius: 0.5rem;
-  /* 8px - standard shadcn radius */
   --tour-shadow:
     0 4px 6px -1px rgb(0 0 0 / 0.1),
     0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -47,47 +41,81 @@
   --tour-z-tooltip: 9999;
 }
 
-/* Dark theme (Zinc Palette Dark) */
+/* Dark theme (Zinc Palette Dark) — works with both Tailwind v3 & v4 dark mode */
 [data-theme="dark"],
-.dark {
+.dark,
+[data-mode="dark"],
+:root[class~="dark"] {
   --tour-bg: #09090b;
-  /* zinc-950 */
   --tour-text: #fafafa;
-  /* zinc-50 */
   --tour-text-secondary: #a1a1aa;
-  /* zinc-400 */
   --tour-text-muted: #71717a;
-  /* zinc-500 */
   --tour-accent: #fafafa;
-  /* zinc-50 Monochrome accent */
 
-  /* Primary Action (White in Dark Mode) */
   --tour-primary: #fafafa;
-  /* zinc-50 */
   --tour-primary-foreground: #18181b;
-  /* zinc-900 */
 
-  /* Secondary/Outline */
   --tour-secondary: #27272a;
-  /* zinc-800 */
   --tour-secondary-foreground: #fafafa;
-  /* zinc-50 */
   --tour-secondary-hover: #3f3f46;
-  /* zinc-700 */
 
   --tour-border: #27272a;
-  /* zinc-800 */
   --tour-overlay: rgba(0, 0, 0, 0.8);
 
   --tour-shadow: 0 0 0 1px #27272a, 0 4px 6px -1px rgb(0 0 0 / 0.4);
 }
 
-/* Base reset for tour elements */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not(.light) {
+    --tour-bg: #09090b;
+    --tour-text: #fafafa;
+    --tour-text-secondary: #a1a1aa;
+    --tour-text-muted: #71717a;
+    --tour-accent: #fafafa;
+
+    --tour-primary: #fafafa;
+    --tour-primary-foreground: #18181b;
+
+    --tour-secondary: #27272a;
+    --tour-secondary-foreground: #fafafa;
+    --tour-secondary-hover: #3f3f46;
+
+    --tour-border: #27272a;
+    --tour-overlay: rgba(0, 0, 0, 0.8);
+
+    --tour-shadow: 0 0 0 1px #27272a, 0 4px 6px -1px rgb(0 0 0 / 0.4);
+  }
+}
+
+/*
+ * Base reset for tour elements.
+ * This undoes Tailwind Preflight (v3 & v4) and any global CSS resets
+ * that strip borders, padding, margins from buttons, etc.
+ */
 .framer-tour-tooltip,
-.framer-tour-tooltip * {
+.framer-tour-tooltip *,
+.framer-tour-spotlight-container,
+.framer-tour-spotlight-container * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  border-style: solid;
+  border-width: 0;
+}
+
+/* Restore button defaults that Tailwind Preflight strips */
+.framer-tour-tooltip button,
+.framer-tour-tooltip [type="button"] {
+  -webkit-appearance: button;
+  appearance: button;
+  background-color: transparent;
+  background-image: none;
+  cursor: pointer;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
 }
 
 /* Smooth font rendering */
@@ -96,7 +124,7 @@
   -moz-osx-font-smoothing: grayscale;
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   letter-spacing: -0.015em;
-  /* Tighter tracking for modern look */
+  line-height: 1.5;
 }
 
 /* Focus styles */

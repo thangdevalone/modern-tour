@@ -23,7 +23,6 @@ Wrap your app with `TourProvider`:
 
 ```tsx
 import { TourProvider } from 'modern-tour';
-import 'modern-tour/styles.css';
 
 const steps = [
   { target: '#btn-1', content: 'Step 1 description' },

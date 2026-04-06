@@ -218,9 +218,11 @@ export function Tooltip() {
             return;
         }
 
-        const rect = tooltipRef.current.getBoundingClientRect();
-        const tooltipWidth = rect.width;
-        const tooltipHeight = rect.height;
+
+        // Use offsetWidth/offsetHeight to get the unscaled dimensions
+        // because getBoundingClientRect() is affected by Framer Motion's scale animation
+        const tooltipWidth = tooltipRef.current.offsetWidth;
+        const tooltipHeight = tooltipRef.current.offsetHeight;
 
         // Calculate initial position based on adjusted position type
         let initialLeft = calculatedData.left;

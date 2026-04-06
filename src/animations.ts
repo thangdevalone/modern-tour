@@ -1,69 +1,64 @@
-import type { AnimationPreset, AnimationConfig, TransitionConfig } from './types';
-
-// Snappy but smooth spring (Shadcn style)
-const snappySpring: TransitionConfig = {
-    type: 'spring',
-    stiffness: 450,
-    damping: 35,
-    mass: 1,
-};
-
-const smoothEase: TransitionConfig = {
-    type: 'tween',
-    ease: [0.32, 0.72, 0, 1],
-    duration: 0.35,
-};
+import type { AnimationPreset, AnimationConfig } from './types';
 
 /**
  * Animation presets for tour components
  */
 export const animationPresets: Record<AnimationPreset, AnimationConfig> = {
-    // Pure opacity fade - simple and clean
+    // Pure opacity fade - simple, slow, and cinematic
     fade: {
         initial: { opacity: 0 },
         animate: { opacity: 1 },
         exit: { opacity: 0 },
-        transition: { duration: 0.4 },
+        transition: { type: 'tween', duration: 0.6, ease: 'easeInOut' },
     },
 
-    // Dramatic zoom in/out - very noticeable
+    // Dramatic zoom combined with 3D rotation - unmistakable
     scale: {
-        initial: { opacity: 0, scale: 0.3 },
-        animate: { opacity: 1, scale: 1 },
-        exit: { opacity: 0, scale: 0.5 },
-        transition: snappySpring,
+        initial: { opacity: 0, scale: 0.3, rotateX: 30, rotateY: 30 },
+        animate: { opacity: 1, scale: 1, rotateX: 0, rotateY: 0 },
+        exit: { opacity: 0, scale: 0.5, rotateX: -30, rotateY: -30 },
+        transition: {
+            type: 'spring',
+            stiffness: 250,
+            damping: 20,
+        },
     },
 
-    // Slide from bottom - clear vertical movement
+    // Huge slide - sweeps in forcefully from a large distance
     slide: {
-        initial: { opacity: 0, y: 50 },
-        animate: { opacity: 1, y: 0 },
-        exit: { opacity: 0, y: -30 },
-        transition: smoothEase,
-    },
-
-    // Bouncy spring - playful overshoot effect
-    bounce: {
-        initial: { opacity: 0, scale: 0.4, y: 30 },
-        animate: { opacity: 1, scale: 1, y: 0 },
-        exit: { opacity: 0, scale: 0.8 },
+        initial: { opacity: 0, x: -100, y: 50 },
+        animate: { opacity: 1, x: 0, y: 0 },
+        exit: { opacity: 0, x: 100, y: -50 },
         transition: {
             type: 'spring',
             stiffness: 300,
-            damping: 12,
+            damping: 25,
             mass: 0.8,
         },
     },
 
-    // Balanced combination - default preset
+    // Exaggerated bounce - extremely playful and hyperactive
+    bounce: {
+        initial: { opacity: 0, scale: 0.1, y: -50, rotate: -20 },
+        animate: { opacity: 1, scale: 1, y: 0, rotate: 0 },
+        exit: { opacity: 0, scale: 0.1, y: 50, rotate: 20 },
+        transition: {
+            type: 'spring',
+            stiffness: 400,
+            damping: 8, // Very low damping creates lots of bounces
+            mass: 1.2,
+        },
+    },
+
+    // Balanced combination - default preset, subtle and smooth
     smooth: {
-        initial: { opacity: 0, scale: 0.85, y: 15 },
+        initial: { opacity: 0, scale: 0.95, y: 15 },
         animate: { opacity: 1, scale: 1, y: 0 },
-        exit: { opacity: 0, scale: 0.9, y: -10 },
+        exit: { opacity: 0, scale: 0.98, y: -5 },
         transition: {
             type: 'tween',
             ease: [0.16, 1, 0.3, 1],
-            duration: 0.35,
+            duration: 0.4,
         },
     },
 };
