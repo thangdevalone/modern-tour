@@ -1,5 +1,16 @@
 # modern-tour
 
+## 0.1.2
+
+### Patch Changes
+
+- f6ca0c2: Enhance animation presets to be highly distinct from each other:
+  - Made `fade` smoother and cinematic.
+  - Added 3D rotation (`rotateX`, `rotateY`) to `scale` preset.
+  - Increased travel distance for `slide`.
+  - Increased bounciness and added rotation to `bounce`.
+  - Added `rotateX`, `rotateY`, and `rotateZ` to `AnimationValues` type to support these new animations.
+
 ## 0.1.1
 
 ### Patch Changes
