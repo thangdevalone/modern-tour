@@ -83,7 +83,7 @@ export function TourProvider({ children, options }: TourProviderProps) {
                 target.scrollIntoView({
                     behavior: mergedOptions.scrollBehavior,
                     block: 'center',
-                    inline: 'center',
+                    inline: 'nearest',
                 });
 
                 // Small delay to let scroll complete, then get rect
