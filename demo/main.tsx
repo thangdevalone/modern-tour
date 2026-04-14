@@ -642,6 +642,14 @@ animation: {
                 <h3 className="landing-config-title">
                   <Zap size={18} /> {t.docs.headless}
                 </h3>
+                <p style={{
+                  fontSize: '0.875rem',
+                  opacity: 0.7,
+                  lineHeight: 1.5,
+                  marginBottom: '0.5rem',
+                }}>
+                  {t.docs.headlessDesc}
+                </p>
                 <CodeBlock
                   filename="CustomTourUI.tsx"
                   code={`import { useTour, useTourActions } from 'modern-tour';
@@ -656,13 +664,179 @@ function CustomTourUI() {
     <div className="my-custom-tooltip">
       <h2>{step?.title}</h2>
       <p>{step?.content}</p>
-      <span>{currentStep + 1} / {totalSteps}</span>
-      <button onClick={prev}>Back</button>
-      <button onClick={next}>Next</button>
+      <div className="footer">
+        <span>{currentStep + 1} / {totalSteps}</span>
+        <div>
+          <button onClick={prev}>Back</button>
+          <button onClick={next}>Next</button>
+        </div>
+      </div>
     </div>
   );
 }`}
                 />
+              </div>
+            </div>
+
+            {/* Theme Gallery */}
+            <div style={{ marginBottom: '2.5rem' }}>
+              <h3 style={{
+                fontSize: '1.25rem',
+                fontWeight: 900,
+                textTransform: 'uppercase',
+                marginBottom: '0.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+              }}>
+                <Palette size={20} /> Theme Recipes
+              </h3>
+              <p style={{ fontSize: '0.875rem', opacity: 0.65, marginBottom: '1.25rem' }}>
+                Drop any snippet into your global CSS. The tour picks up CSS variables automatically — no extra import.
+              </p>
+              <div className="landing-config-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+
+                {/* Shadcn UI */}
+                <div className="landing-config-card">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                    <strong style={{ fontSize: '0.8rem', letterSpacing: '0.05em', textTransform: 'uppercase', fontWeight: 700, opacity: 0.8 }}>Shadcn UI</strong>
+                  </div>
+                  <div style={{
+                    padding: '0.875rem 1rem',
+                    marginBottom: '0.75rem',
+                    background: '#ffffff',
+                    border: '1px solid #e4e4e7',
+                    borderRadius: 8,
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                    color: '#09090b',
+                    fontSize: '0.75rem',
+                    fontFamily: 'system-ui, sans-serif',
+                  }}>
+                    <div style={{ fontWeight: 600, marginBottom: 4, fontSize: '0.85rem' }}>Update available</div>
+                    <div style={{ color: '#71717a', fontSize: '0.75rem', lineHeight: 1.5 }}>A new version of Modern Tour is available. Please update to see the latest features.</div>
+                    <div style={{ marginTop: 12, display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+                      <span style={{ padding: '6px 12px', border: '1px solid #e4e4e7', color: '#09090b', borderRadius: 6, fontSize: '0.7rem', fontWeight: 500 }}>Skip</span>
+                      <span style={{ padding: '6px 12px', background: '#09090b', color: '#fafafa', borderRadius: 6, fontSize: '0.7rem', fontWeight: 500 }}>Update</span>
+                    </div>
+                  </div>
+                  <CodeBlock filename="globals.css" code={`:root {
+  --tour-bg: #ffffff;
+  --tour-text: #09090b;
+  --tour-primary: #09090b;
+  --tour-primary-foreground: #fafafa;
+  --tour-border: #e4e4e7;
+  --tour-radius: 8px;
+  --tour-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}`} />
+                </div>
+
+                {/* Linear (Dark Glow) */}
+                <div className="landing-config-card">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                    <strong style={{ fontSize: '0.8rem', letterSpacing: '0.05em', textTransform: 'uppercase', fontWeight: 700, opacity: 0.8 }}>Linear Glow</strong>
+                  </div>
+                  <div style={{
+                    padding: '0.875rem 1rem',
+                    marginBottom: '0.75rem',
+                    background: '#131316',
+                    border: '1px solid #2C2C30',
+                    borderTopColor: '#3C3C40',
+                    borderRadius: 12,
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(94, 106, 210, 0.1)',
+                    color: '#EEEEF0',
+                    fontSize: '0.75rem',
+                    fontFamily: 'system-ui, sans-serif',
+                  }}>
+                    <div style={{ fontWeight: 500, marginBottom: 4, fontSize: '0.85rem' }}>Command Menu</div>
+                    <div style={{ color: '#8A8A93', fontSize: '0.75rem', lineHeight: 1.5 }}>Quickly access all actions from your keyboard.</div>
+                    <div style={{ marginTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '0.65rem', color: '#8A8A93' }}>1 of 4</span>
+                      <div style={{ display: 'flex', gap: 6 }}>
+                        <span style={{ padding: '5px 10px', background: 'transparent', color: '#8A8A93', borderRadius: 6, fontSize: '0.7rem', fontWeight: 500 }}>Back</span>
+                        <span style={{ padding: '5px 12px', background: '#5E6AD2', color: '#ffffff', borderRadius: 6, fontSize: '0.7rem', fontWeight: 500, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.2)' }}>Next</span>
+                      </div>
+                    </div>
+                  </div>
+                  <CodeBlock filename="globals.css" code={`:root {
+  --tour-bg: #131316;
+  --tour-text: #eeeef0;
+  --tour-primary: #5e6ad2;
+  --tour-border: #2c2c30;
+  --tour-radius: 12px;
+  --tour-shadow: 0 8px 24px rgba(0,0,0,0.4),
+                 0 0 0 1px rgba(94,106,210,0.1);
+}`} />
+                </div>
+
+                {/* Stripe Soft */}
+                <div className="landing-config-card">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                    <strong style={{ fontSize: '0.8rem', letterSpacing: '0.05em', textTransform: 'uppercase', fontWeight: 700, opacity: 0.8 }}>Stripe Soft</strong>
+                  </div>
+                  <div style={{
+                    padding: '0.875rem 1rem',
+                    marginBottom: '0.75rem',
+                    background: '#ffffff',
+                    border: 'none',
+                    borderRadius: 16,
+                    boxShadow: '0 13px 27px -5px rgba(50,50,93,0.25), 0 8px 16px -8px rgba(0,0,0,0.3)',
+                    color: '#0A2540',
+                    fontSize: '0.75rem',
+                    fontFamily: 'system-ui, sans-serif',
+                  }}>
+                    <div style={{ fontWeight: 600, marginBottom: 4, fontSize: '0.85rem' }}>Payment details</div>
+                    <div style={{ color: '#425466', fontSize: '0.75rem', lineHeight: 1.5 }}>Securely manage your billing information and view past invoices.</div>
+                    <div style={{ marginTop: 12, display: 'flex', justifyContent: 'flex-end', gap: 6 }}>
+                      <span style={{ padding: '6px 12px', background: 'transparent', color: '#425466', borderRadius: 8, fontSize: '0.7rem', fontWeight: 600 }}>Dismiss</span>
+                      <span style={{ padding: '6px 14px', background: '#635BFF', color: '#ffffff', borderRadius: 8, fontSize: '0.7rem', fontWeight: 600, boxShadow: '0 2px 5px -1px rgba(50,50,93,0.25)' }}>Next</span>
+                    </div>
+                  </div>
+                  <CodeBlock filename="globals.css" code={`:root {
+  --tour-bg: #ffffff;
+  --tour-text: #0a2540;
+  --tour-primary: #635bff;
+  --tour-border: transparent;
+  --tour-radius: 16px;
+  --tour-shadow: 0 13px 27px -5px rgba(50,50,93,0.25),
+                 0 8px 16px -8px rgba(0,0,0,0.3);
+}`} />
+                </div>
+
+                {/* Neo Brutalism */}
+                <div className="landing-config-card">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                    <strong style={{ fontSize: '0.8rem', letterSpacing: '0.05em', textTransform: 'uppercase', fontWeight: 700, opacity: 0.8 }}>Neo Brutalist</strong>
+                  </div>
+                  <div style={{
+                    padding: '0.875rem 1rem',
+                    marginBottom: '0.75rem',
+                    background: '#ffc900',
+                    border: '3px solid #000',
+                    borderRadius: 0,
+                    boxShadow: '4px 4px 0px #000',
+                    color: '#000',
+                    fontSize: '0.75rem',
+                    fontFamily: 'system-ui, sans-serif',
+                  }}>
+                    <div style={{ fontWeight: 800, marginBottom: 4, fontSize: '0.9rem', textTransform: 'uppercase' }}>Attention!</div>
+                    <div style={{ color: '#000', fontSize: '0.75rem', lineHeight: 1.5, fontWeight: 500 }}>This is a crucial step! Don't skip it or you might miss out.</div>
+                    <div style={{ marginTop: 12, display: 'flex', gap: 6 }}>
+                      <span style={{ padding: '6px 12px', background: '#fff', border: '2px solid #000', color: '#000', fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', boxShadow: '2px 2px 0px #000' }}>Skip</span>
+                      <span style={{ padding: '6px 12px', background: '#ff90e8', border: '2px solid #000', color: '#000', fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', boxShadow: '2px 2px 0px #000' }}>Next</span>
+                    </div>
+                  </div>
+                  <CodeBlock filename="globals.css" code={`:root {
+  --tour-bg: #ffc900;
+  --tour-text: #000000;
+  --tour-primary: #ff90e8;
+  --tour-primary-foreground: #000000;
+  --tour-border: #000000;
+  --tour-border-width: 3px;
+  --tour-radius: 0px;
+  --tour-shadow: 4px 4px 0px #000000;
+}`} />
+                </div>
+
               </div>
             </div>
 
