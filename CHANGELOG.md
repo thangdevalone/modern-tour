@@ -1,5 +1,14 @@
 # modern-tour
 
+## 0.1.4
+
+### Patch Changes
+
+- fix: correct CSS variable names in Tooltip
+
+  - `--tour-shadow-lg` was being used internally but the documented variable is `--tour-shadow` — users setting `--tour-shadow` had no effect. Now fixed to use `--tour-shadow`.
+  - Tooltip border width was hardcoded to `1px`. Introduced `--tour-border-width` (default: `1px`) so border thickness is now customizable via CSS, enabling styles like Neo Brutalist (`--tour-border-width: 3px`).
+
 ## 0.1.3
 
 ### Patch Changes
