@@ -1,6 +1,4 @@
 import {
-    createContext,
-    useContext,
     useState,
     useCallback,
     useEffect,
@@ -11,8 +9,7 @@ import { AnimatePresence } from 'framer-motion';
 import type { TourOptions, TourContextValue, TourStep } from './types';
 import { Spotlight } from './components/Spotlight';
 import { Tooltip } from './components/Tooltip';
-
-const TourContext = createContext<TourContextValue | null>(null);
+import { TourContext } from './context';
 
 /**
  * Default options for the tour
@@ -36,6 +33,7 @@ const defaultOptions: Partial<TourOptions> = {
         finish: 'Finish',
         close: 'Close',
     },
+    waitForTargetTimeout: 3000,
 };
 
 interface TourProviderProps {
@@ -114,13 +112,14 @@ export function TourProvider({ children, options }: TourProviderProps) {
                 attributes: true,
             });
 
-            // Timeout after 3 seconds if not found
+            // Timeout if not found
+            const timeout = mergedOptions.waitForTargetTimeout ?? 3000;
             timeoutId = setTimeout(() => {
                 if (isCancelled) return;
-                console.warn(`[modern-tour] Target element not found after 3s: ${step.target}`);
+                console.warn(`[modern-tour] Target element not found after ${timeout}ms: ${step.target}`);
                 setTargetRect(null);
                 if (observer) observer.disconnect();
-            }, 3000);
+            }, timeout);
         }
 
         // Observe resize/scroll to update position
@@ -260,23 +259,4 @@ export function TourProvider({ children, options }: TourProviderProps) {
             </AnimatePresence>
         </TourContext.Provider>
     );
-}
-
-/**
- * Hook to access tour context
- */
-export function useTour(): TourContextValue {
-    const context = useContext(TourContext);
-    if (!context) {
-        throw new Error('useTour must be used within a TourProvider');
-    }
-    return context;
-}
-
-/**
- * Hook to access tour actions only (for performance)
- */
-export function useTourActions() {
-    const { start, stop, next, prev, goTo } = useTour();
-    return { start, stop, next, prev, goTo };
 }

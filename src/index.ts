@@ -1,5 +1,6 @@
 // Main exports
-export { TourProvider, useTour, useTourActions } from './TourProvider';
+export { TourProvider } from './TourProvider';
+export { useTour, useTourActions } from './context';
 
 // Types
 export type {

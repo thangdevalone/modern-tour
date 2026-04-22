@@ -256,13 +256,6 @@ const LandingPage = ({
             <nav id="nav-links" className="landing-nav">
               <a href="#features">{t.nav.animations}</a>
               <a href="#docs">{t.nav.docs}</a>
-              <a
-                href="https://github.com/thangdevalone/modern-tour"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {t.nav.github}
-              </a>
             </nav>
 
             <div className="landing-header-buttons">
@@ -652,13 +645,10 @@ animation: {
                 </p>
                 <CodeBlock
                   filename="CustomTourUI.tsx"
-                  code={`import { useTour, useTourActions } from 'modern-tour';
+                  code={`import { TourProvider, useTour } from 'modern-tour';
 
 function CustomTourUI() {
-  const { isOpen, step, currentStep, totalSteps } = useTour();
-  const { start, stop, next, prev, goTo } = useTourActions();
-
-  if (!isOpen) return null;
+  const { step, currentStep, totalSteps, next, prev } = useTour();
 
   return (
     <div className="my-custom-tooltip">
@@ -673,7 +663,12 @@ function CustomTourUI() {
       </div>
     </div>
   );
-}`}
+}
+
+// In your root:
+<TourProvider options={{ components: { TooltipContent: CustomTourUI } }}>
+  <App />
+</TourProvider>`}
                 />
               </div>
             </div>

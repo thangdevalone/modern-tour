@@ -132,6 +132,8 @@ export interface TourOptions {
     scrollBehavior?: ScrollBehavior;
     /** Scroll margin from viewport edge */
     scrollMargin?: number;
+    /** Timeout in milliseconds to wait for a lazy-loaded target element (default: 3000) */
+    waitForTargetTimeout?: number;
     /** Custom labels for buttons */
     labels?: {
         next?: string;
@@ -139,6 +141,10 @@ export interface TourOptions {
         skip?: string;
         finish?: string;
         close?: string;
+    };
+    /** Custom component overrides */
+    components?: {
+        TooltipContent?: React.ComponentType<any>;
     };
     /** Callback when tour starts */
     onStart?: () => void;

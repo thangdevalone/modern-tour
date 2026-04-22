@@ -1,4 +1,4 @@
-import { useTour } from '../TourProvider';
+import { useTour } from '../context';
 import { ChevronRight, ChevronLeft, X, Check } from 'lucide-react';
 
 /**

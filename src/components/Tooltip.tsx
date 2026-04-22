@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState, useLayoutEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useTour } from '../TourProvider';
+import { useTour } from '../context';
 import { getAnimationConfig } from '../animations';
 import { TourContent } from './TourContent';
 import type { TooltipPosition } from '../types';
@@ -276,7 +276,11 @@ export function Tooltip() {
                     overflowY: clampedPosition?.maxHeight ? 'auto' : undefined,
                 }}
             >
-                <TourContent />
+                {options.components?.TooltipContent ? (
+                    <options.components.TooltipContent />
+                ) : (
+                    <TourContent />
+                )}
             </div>
         </motion.div>
     );

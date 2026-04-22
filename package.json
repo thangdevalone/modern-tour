@@ -1,6 +1,6 @@
 {
   "name": "modern-tour",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "A beautiful, animated product tour library for React powered by Framer Motion",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -85,7 +85,6 @@
   },
   "homepage": "https://tour.modern-ui.org",
   "dependencies": {
-    "@floating-ui/react": "^0.27.17",
     "framer-motion": "^11.0.5",
     "lucide-react": "^0.563.0"
   }

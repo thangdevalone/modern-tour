@@ -1,5 +1,14 @@
 # modern-tour
 
+## 0.2.0
+
+### Minor Changes
+
+- - **Feature**: Added Headless Component Override support via `options.components.TooltipContent` to allow full custom UI for tooltips.
+  - **Feature**: Added `waitForTargetTimeout` option to customize the maximum wait time for lazy-loaded components (defaults to 3000ms).
+  - **Fix**: Resolved Vite Fast Refresh compatibility warnings by extracting hooks from the Provider file.
+  - **Chore**: Removed unused `@floating-ui/react` dependency to optimize bundle size.
+
 ## 0.1.5
 
 ### Patch Changes
