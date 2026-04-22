@@ -1,5 +1,11 @@
 # modern-tour
 
+## 0.1.5
+
+### Patch Changes
+
+- Fix an issue where the Spotlight overlay remained in the DOM and blocked interaction when the tour was skipped or closed.
+
 ## 0.1.4
 
 ### Patch Changes

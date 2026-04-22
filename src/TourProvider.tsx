@@ -243,16 +243,19 @@ export function TourProvider({ children, options }: TourProviderProps) {
     return (
         <TourContext.Provider value={contextValue}>
             {children}
+            <AnimatePresence>
+                {isOpen && targetRect && step && (
+                    <Spotlight
+                        key="tour-spotlight"
+                        targetRect={targetRect}
+                        padding={step.spotlightPadding ?? mergedOptions.spotlightPadding ?? 8}
+                        onOverlayClick={handleOverlayClick}
+                    />
+                )}
+            </AnimatePresence>
             <AnimatePresence mode="wait">
                 {isOpen && targetRect && step && (
-                    <>
-                        <Spotlight
-                            targetRect={targetRect}
-                            padding={step.spotlightPadding ?? mergedOptions.spotlightPadding ?? 8}
-                            onOverlayClick={handleOverlayClick}
-                        />
-                        <Tooltip />
-                    </>
+                    <Tooltip key={`tour-tooltip-${currentStep}`} />
                 )}
             </AnimatePresence>
         </TourContext.Provider>
