@@ -82,6 +82,7 @@ Modern Tour uses pure CSS variables for theming. You don't need to import any CS
 }
 
 /* Dark Mode Example */
+/* Apply this class to your root element or <body>: <body className="dark"> */
 .dark {
   --tour-bg: #09090b;
   --tour-text: #fafafa;
@@ -91,6 +92,7 @@ Modern Tour uses pure CSS variables for theming. You don't need to import any CS
 }
 
 /* Neo-Brutalism Example */
+/* Apply this class to a wrapper or <body> to instantly transform the look: <body className="neo-theme"> */
 .neo-theme {
   --tour-bg: #fffbf0;
   --tour-text: #000;
@@ -121,9 +123,10 @@ function MyCustomTooltip() {
       <p>{step?.content}</p>
       <div className="flex justify-between mt-4">
          <span>{currentStep + 1} / {totalSteps}</span>
-         <div>
+         <div className="space-x-2">
             <button onClick={prev}>Back</button>
             <button onClick={next}>Next</button>
+            <button onClick={stop}>Close</button>
          </div>
       </div>
     </div>
