@@ -1,5 +1,11 @@
 # modern-tour
 
+## 0.2.2
+
+### Patch Changes
+
+- Bypass npm provenance 409 error
+
 ## 0.2.1
 
 ### Patch Changes
