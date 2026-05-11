@@ -1,6 +1,6 @@
 {
   "name": "modern-tour",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A beautiful, animated product tour library for React powered by Framer Motion",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -35,6 +35,8 @@
     "release": "changeset publish"
   },
   "peerDependencies": {
+    "framer-motion": ">=11.0.0",
+    "lucide-react": ">=0.200.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
@@ -83,9 +85,5 @@
   "bugs": {
     "url": "https://github.com/thangdevalone/modern-tour/issues"
   },
-  "homepage": "https://tour.modern-ui.org",
-  "dependencies": {
-    "framer-motion": "^11.0.5",
-    "lucide-react": "^0.563.0"
-  }
+  "homepage": "https://tour.modern-ui.org"
 }

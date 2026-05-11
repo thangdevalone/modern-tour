@@ -1,5 +1,11 @@
 # modern-tour
 
+## 0.2.3
+
+### Patch Changes
+
+- Move framer-motion and lucide-react to peerDependencies to prevent duplicate installations and bloated bundles in consuming projects.
+
 ## 0.2.2
 
 ### Patch Changes
