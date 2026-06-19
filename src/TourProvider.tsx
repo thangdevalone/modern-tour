@@ -84,13 +84,17 @@ export function TourProvider({ children, options }: TourProviderProps) {
                     inline: 'nearest',
                 });
 
-                // Small delay to let scroll complete, then get rect
+                // Use per-step delay, fallback to global stepDelay, then add base scroll delay
+                const stepDelay = step.delay ?? mergedOptions.stepDelay ?? 0;
+                const totalDelay = Math.max(100, 100 + stepDelay);
+
+                // Wait for scroll + animation to complete, then measure rect
                 timeoutId = setTimeout(() => {
                     if (isCancelled) return;
                     const rect = target.getBoundingClientRect();
                     setTargetRect(rect);
                     step.onActive?.();
-                }, 100);
+                }, totalDelay);
 
                 if (observer) {
                     observer.disconnect();

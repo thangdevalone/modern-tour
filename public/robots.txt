@@ -22,11 +22,46 @@ User-agent: Baiduspider
 Allow: /
 Crawl-delay: 2
 
+# AI Crawlers - Allow all AI search engines and LLM crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
 # Disallow crawling of development/build files
 Disallow: /node_modules/
 Disallow: /.git/
 Disallow: /dist/
 Disallow: /src/
+
+# LLM-specific resources
+# See https://tour.modern-ui.org/llms.txt for AI-readable summary
+# See https://tour.modern-ui.org/llms-full.txt for comprehensive AI documentation
 
 # Sitemap location
 Sitemap: https://tour.modern-ui.org/sitemap.xml

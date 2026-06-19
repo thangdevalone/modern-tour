@@ -1,5 +1,18 @@
 # modern-tour
 
+## 0.3.0
+
+### Minor Changes
+
+- d01e301: feat: add `stepDelay` and per-step `delay` props for animated UI elements (closes #4)
+
+  - Added `TourOptions.stepDelay` (global delay in ms before measuring target position)
+  - Added `TourStep.delay` (per-step override, useful for individual animated containers)
+  - Allows touring elements inside animated dropdowns, modals, and accordions
+  - Compatible with all animated UI libraries (Ant Design, MUI, Radix, Headless UI, etc.)
+  - Added CSS Classes Reference to README for easier styling customization
+  - Added SEO optimization: llms.txt, llms-full.txt, FAQPage schema, AI crawler support
+
 ## 0.2.3
 
 ### Patch Changes

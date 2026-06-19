@@ -37,6 +37,10 @@ export interface TourStep {
     spotlightPadding?: number;
     /** Route path for cross-page tours */
     route?: string;
+    /** Delay in ms before positioning tooltip after target is found.
+     *  Useful when target is inside an animated dropdown/modal.
+     *  Overrides the global `stepDelay` option for this step. */
+    delay?: number;
     /** Callback when step becomes active */
     onActive?: () => void;
     /** Callback when leaving this step */
@@ -134,6 +138,11 @@ export interface TourOptions {
     scrollMargin?: number;
     /** Timeout in milliseconds to wait for a lazy-loaded target element (default: 3000) */
     waitForTargetTimeout?: number;
+    /** Delay in ms before measuring target position after it is found (default: 0).
+     *  Useful when targets are inside animated containers (dropdowns, modals, accordions).
+     *  Allows the opening animation to complete before the tooltip is positioned.
+     *  Can be overridden per-step via `TourStep.delay`. */
+    stepDelay?: number;
     /** Custom labels for buttons */
     labels?: {
         next?: string;

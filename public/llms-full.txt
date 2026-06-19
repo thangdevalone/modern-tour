@@ -1,0 +1,337 @@
+# Modern Tour — Complete Documentation for AI
+
+> Modern Tour is a lightweight, animated product tour and user onboarding library for React. Built with Framer Motion for buttery-smooth spring-physics transitions, it offers smart auto-positioning, headless customization, keyboard navigation, lazy-loaded target support, and cross-page tours. MIT licensed, zero CSS imports required. Install: `npm install modern-tour`.
+
+## Why Modern Tour?
+
+Modern Tour is the best React product tour library for developers who want beautiful animations without complexity. Unlike react-joyride (which uses Popper.js and requires CSS imports), Modern Tour uses Framer Motion for physics-based spring animations and auto-injects its styles. Unlike shepherd.js (which is framework-agnostic but heavy), Modern Tour is React-native and lightweight. Unlike intro.js (which has a paid license for commercial use), Modern Tour is fully MIT licensed and free.
+
+### Key Differentiators
+
+1. **Framer Motion Animations**: 5 built-in animation presets (fade, scale, slide, bounce, smooth) plus support for custom Framer Motion configs. No other React tour library offers physics-based spring animations out of the box.
+2. **Headless Architecture**: Completely override the tooltip UI with your own React component while keeping smart positioning logic. Build any design you want.
+3. **Zero CSS Import**: Styles are auto-injected via JavaScript. No need to import CSS files. Theme everything with CSS variables.
+4. **Smart Auto-Positioning**: Tooltip dynamically recalculates position and automatically flips when it would overflow viewport edges.
+5. **Lazy Loading Support**: Uses MutationObserver to detect dynamically-rendered target elements. Works seamlessly with code-split routes and async components.
+6. **Step Delay for Animated UIs**: Configurable delay (`stepDelay` or per-step `delay`) to wait for dropdown/modal animations to complete before positioning the tooltip. Makes any animated UI library (Ant Design, MUI, Radix, Headless UI) fully tourable.
+7. **Cross-Page Tours**: Tour state persists across route changes. Define routes per step and handle navigation via callbacks.
+7. **Keyboard Navigation**: Full keyboard support with Arrow Keys, Enter, and Escape.
+
+## Installation
+
+```bash
+npm install modern-tour
+# or
+yarn add modern-tour
+# or
+pnpm add modern-tour
+```
+
+Peer dependencies: `react >= 18.0.0`, `react-dom >= 18.0.0`, `framer-motion >= 11.0.0`, `lucide-react >= 0.200.0`.
+
+## Quick Start
+
+Wrap your app with `<TourProvider>` and use the `useTour()` hook to control the tour:
+
+```tsx
+import { TourProvider, useTour } from 'modern-tour';
+
+const steps = [
+  { target: '#btn-1', content: 'Welcome to our platform!' },
+  { target: '#btn-2', title: 'Settings', content: 'Configure your preferences here.' },
+];
+
+function YourApp() {
+  const { start } = useTour();
+
+  return (
+    <div>
+      <button id="btn-1" onClick={() => start()}>Start Tour</button>
+      <button id="btn-2">Settings</button>
+    </div>
+  );
+}
+
+function Root() {
+  return (
+    <TourProvider options={{ steps, animation: 'smooth' }}>
+      <YourApp />
+    </TourProvider>
+  );
+}
+```
+
+## Theming & Styling
+
+Modern Tour uses CSS variables for theming. Override variables in your global CSS — no CSS file imports needed.
+
+### Default (Minimal) Theme
+
+```css
+:root {
+  --tour-bg: #ffffff;
+  --tour-text: #09090b;
+  --tour-text-secondary: #71717a;
+  --tour-primary: #18181b;
+  --tour-primary-foreground: #fafafa;
+  --tour-border: #e4e4e7;
+  --tour-radius: 0.5rem;
+  --tour-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+```
+
+### Dark Mode Theme
+
+```css
+.dark {
+  --tour-bg: #09090b;
+  --tour-text: #fafafa;
+  --tour-primary: #fafafa;
+  --tour-primary-foreground: #18181b;
+  --tour-border: #27272a;
+}
+```
+
+### Neo-Brutalism Theme
+
+```css
+.neo-theme {
+  --tour-bg: #fffbf0;
+  --tour-text: #000;
+  --tour-border: #000;
+  --tour-border-width: 3px;
+  --tour-radius: 0px;
+  --tour-shadow: 6px 6px 0px #000000;
+}
+```
+
+### CSS Classes Reference
+
+Use these classes to customize individual parts of the tour UI:
+
+| Element | CSS Class |
+|---------|-----------|
+| Next / "Got it!" button | .framer-tour-btn-primary |
+| Back button | .framer-tour-btn-secondary |
+| Close (×) button | .framer-tour-close |
+| All buttons (shared base) | .framer-tour-btn |
+| Tooltip content wrapper | .framer-tour-content |
+| Step title | .framer-tour-title |
+| Step description | .framer-tour-description |
+| Footer row | .framer-tour-footer |
+| Progress text ("Step 1 of 3") | .framer-tour-progress |
+| Navigation button group | .framer-tour-navigation |
+
+Example — make the Next/"Got it!" button blue:
+
+```css
+.framer-tour-btn-primary {
+  background: #2563eb !important;
+  color: #ffffff !important;
+}
+```
+
+## Headless Component Override
+
+For full UI control, replace the tooltip content with your own React component:
+
+```tsx
+import { TourProvider, useTour } from 'modern-tour';
+
+function MyCustomTooltip() {
+  const { step, currentStep, totalSteps, next, prev, stop } = useTour();
+
+  return (
+    <div className="custom-tooltip">
+      <h2>{step?.title}</h2>
+      <p>{step?.content}</p>
+      <div>
+        <span>{currentStep + 1} / {totalSteps}</span>
+        <button onClick={prev}>Back</button>
+        <button onClick={next}>Next</button>
+        <button onClick={stop}>Close</button>
+      </div>
+    </div>
+  );
+}
+
+<TourProvider
+  options={{
+    steps,
+    components: { TooltipContent: MyCustomTooltip }
+  }}
+>
+  <App />
+</TourProvider>
+```
+
+## Cross-Page Tours
+
+Create tours that span multiple routes. Assign a `route` to steps and handle navigation:
+
+```tsx
+<TourProvider options={{
+  steps: [
+    { target: '#home-btn', content: 'We are on Home' },
+    { target: '#settings-btn', content: 'We are on Settings', route: '/settings' }
+  ],
+  onStepChange: (stepIndex) => {
+    const nextRoute = steps[stepIndex]?.route;
+    if (nextRoute) {
+      navigate(nextRoute); // React Router or Next.js router
+    }
+  }
+}}>
+```
+
+## Touring Animated UI Elements (Dropdowns, Modals, Accordions)
+
+If your target element is inside a dropdown, modal, or accordion that has an opening animation, the tooltip might position incorrectly because the element hasn't finished animating. Use `stepDelay` (global) or per-step `delay` to wait for animations to complete:
+
+```tsx
+<TourProvider options={{
+  steps: [
+    { target: '#menu-btn', content: 'Click to open the menu' },
+    {
+      target: '#menu-item-settings',
+      content: 'Here are your settings',
+      delay: 300, // Wait 300ms for dropdown animation
+    },
+  ],
+  // Or set globally: stepDelay: 300,
+  onStepChange: (stepIndex) => {
+    if (stepIndex === 1) openDropdown();
+  }
+}}>
+```
+
+This makes Modern Tour compatible with all animated UI libraries including Ant Design, Material UI (MUI), Radix UI, Headless UI, Chakra UI, and any custom animated components.
+
+## Lazy-Loaded Targets
+
+Modern Tour uses MutationObserver to detect dynamically-rendered target elements. If your target is inside a lazy-loaded component, Modern Tour will wait for it automatically:
+
+```tsx
+<TourProvider options={{
+  steps,
+  waitForTargetTimeout: 10000 // Wait up to 10 seconds (default: 3000ms)
+}}>
+```
+
+## API Reference
+
+### TourOptions
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| steps | TourStep[] | [] | Array of steps defining your tour |
+| autoStart | boolean | false | Start tour automatically when provider mounts |
+| animation | string or Config | 'smooth' | Preset (fade, scale, slide, bounce, smooth) or custom Framer Motion config |
+| components | Object | undefined | Custom component overrides, e.g. { TooltipContent: MyComponent } |
+| waitForTargetTimeout | number | 3000 | Max milliseconds to wait for lazy-loaded targets |
+| stepDelay | number | 0 | Delay in ms before measuring target position. Useful for animated dropdowns/modals |
+| keyboardNavigation | boolean | true | Allow Arrow Keys, Enter, Escape controls |
+| closeOnOverlayClick | boolean | true | Close tour when clicking overlay background |
+| spotlightPadding | number | 8 | Pixels of padding around highlighted element |
+| labels | Object | {...} | Override button text (next, prev, skip, finish, close) |
+
+### TourStep
+
+| Property | Type | Description |
+|----------|------|-------------|
+| target | string | Required. CSS selector for element to highlight (e.g. #my-btn, .nav-item) |
+| content | ReactNode | Required. Body content of the step |
+| title | ReactNode | Optional heading text |
+| position | string | Preferred placement: top, bottom, left, right with -start/-end variations |
+| route | string | Meta-field to trigger route changes on specific steps |
+| delay | number | Delay in ms before positioning tooltip. Overrides global stepDelay. Useful for animated containers |
+| spotlightPadding | number | Step-specific padding, overrides global setting |
+| onActive | () => void | Callback when this step becomes visible |
+| onLeave | () => void | Callback when leaving this step |
+
+### useTour() Hook
+
+The `useTour()` hook provides full control over the tour:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| start | () => void | Start the tour from the beginning |
+| stop | () => void | Stop and close the tour |
+| next | () => void | Go to the next step |
+| prev | () => void | Go to the previous step |
+| step | TourStep | Current step object |
+| currentStep | number | Current step index (0-based) |
+| totalSteps | number | Total number of steps |
+| isActive | boolean | Whether the tour is currently running |
+
+## Comparison with Alternatives
+
+### Modern Tour vs react-joyride
+- Modern Tour uses Framer Motion (spring physics); react-joyride uses Popper.js (static positioning)
+- Modern Tour auto-injects CSS; react-joyride requires CSS import
+- Modern Tour supports headless component override; react-joyride has limited customization
+- Modern Tour has built-in lazy loading support via MutationObserver
+- Modern Tour has stepDelay for animated containers; react-joyride does not
+- Both are MIT licensed
+
+### Modern Tour vs shepherd.js
+- Modern Tour is React-native; shepherd.js is framework-agnostic (heavier bundle)
+- Modern Tour has spring-physics animations; shepherd.js has basic CSS transitions
+- Modern Tour is ~15KB gzipped; shepherd.js is ~30KB+ gzipped
+- Both support cross-page tours
+
+### Modern Tour vs intro.js
+- Modern Tour is fully MIT licensed; intro.js requires paid license for commercial use
+- Modern Tour uses React components; intro.js uses imperative DOM manipulation
+- Modern Tour has Framer Motion animations; intro.js has basic CSS animations
+- Modern Tour supports TypeScript natively
+
+### Modern Tour vs reactour
+- Modern Tour uses Framer Motion for animations; reactour uses basic transitions
+- Modern Tour supports headless mode; reactour has fixed UI structure
+- Modern Tour has cross-page tour support; reactour does not
+- Modern Tour handles lazy-loaded targets; reactour requires targets to be present
+
+## Use Cases
+
+1. **SaaS Onboarding**: Guide new users through your application's key features with animated, step-by-step tours.
+2. **Feature Discovery**: Highlight new features after an update with attention-grabbing spring animations.
+3. **E-commerce Product Guides**: Walk customers through product pages, cart, and checkout flows across multiple routes.
+4. **Dashboard Walkthroughs**: Help users understand complex analytics dashboards with contextual tooltips.
+5. **Documentation Sites**: Interactive tutorials that highlight UI elements as users read documentation.
+6. **Admin Panels**: Train admin users on configuration options with headless custom tooltips.
+
+## Frequently Asked Questions
+
+**What is the best React product tour library?**
+Modern Tour is considered one of the best React product tour libraries due to its Framer Motion spring-physics animations, headless architecture, zero CSS imports, smart auto-positioning, and cross-page tour support. It is lightweight (~15KB gzipped), fully typed with TypeScript, and MIT licensed.
+
+**How do I create animated user onboarding in React?**
+Install Modern Tour (`npm install modern-tour`), wrap your app with `<TourProvider>`, define your steps array with target selectors and content, then call `start()` from the `useTour()` hook. Modern Tour provides 5 animation presets: fade, scale, slide, bounce, and smooth.
+
+**Is Modern Tour free for commercial use?**
+Yes. Modern Tour is released under the MIT license, which allows free use in both personal and commercial projects with no restrictions.
+
+**Does Modern Tour work with Next.js?**
+Yes. Modern Tour works with Next.js, Remix, Gatsby, and any React-based framework. For cross-page tours in Next.js, use the `onStepChange` callback with Next.js router to navigate between routes.
+
+**How do I customize the tour tooltip design?**
+You have two options: (1) Override CSS variables for quick theming (dark mode, neo-brutalism, etc.), or (2) Use headless mode by passing a custom React component via `components: { TooltipContent: YourComponent }` for complete UI control.
+
+**Does Modern Tour support dark mode?**
+Yes. Modern Tour supports dark mode out of the box. Apply the `.dark` class to your root element and override the CSS variables. The library includes pre-defined dark mode variable values.
+
+**Can I create a tour that spans multiple pages?**
+Yes. Modern Tour supports cross-page tours. Add a `route` property to any step and handle navigation in the `onStepChange` callback using your router (React Router, Next.js router, etc.).
+
+## Project Info
+
+- **Author**: thangdevalone
+- **License**: MIT
+- **Repository**: https://github.com/thangdevalone/modern-tour
+- **npm**: https://www.npmjs.com/package/modern-tour
+- **Homepage**: https://tour.modern-ui.org
+- **Current Version**: 0.2.3
+- **Bundle Size**: ~15KB gzipped
+- **TypeScript**: Full type definitions included
+- **Peer Dependencies**: React 18+, Framer Motion 11+, lucide-react 0.200+

@@ -1,0 +1,35 @@
+# Modern Tour
+
+> Modern Tour is a lightweight, animated product tour and user onboarding library for React. It uses Framer Motion for physics-based animations, supports headless customization, smart auto-positioning, keyboard navigation, lazy-loaded targets, and cross-page tours. It is free, open-source (MIT), and requires zero CSS imports.
+
+## Quick Install
+
+- [npm](https://www.npmjs.com/package/modern-tour): `npm install modern-tour`
+
+## Documentation
+
+- [Homepage & Live Demo](https://tour.modern-ui.org/): Interactive demo with multiple themes (Minimal, Dark, Neo-Brutalism)
+- [GitHub Repository](https://github.com/thangdevalone/modern-tour): Source code, issues, and contributing guide
+- [README](https://github.com/thangdevalone/modern-tour/blob/main/README.md): Full API reference, quick start, and theming guide
+- [npm Package](https://www.npmjs.com/package/modern-tour): Package info and version history
+- [Full LLM Documentation](https://tour.modern-ui.org/llms-full.txt): Comprehensive documentation with code examples and API reference
+
+## Key Features
+
+- Smooth spring-physics animations powered by Framer Motion
+- Smart auto-positioning with automatic viewport-edge flipping
+- Lazy loading support via MutationObserver
+- Fully headless: override tooltip with custom React components
+- Keyboard navigation (Arrow Keys, Enter, Escape)
+- Zero CSS import: styles auto-injected, theme via CSS variables
+- Cross-page tours that persist across route changes
+- Built-in themes: Minimal, Dark Mode, Neo-Brutalism
+- TypeScript support with full type definitions
+
+## Comparison
+
+Modern Tour is an alternative to react-joyride, shepherd.js, intro.js, and reactour. It differentiates by offering Framer Motion animations, headless architecture, and zero-config CSS injection.
+
+## License
+
+MIT License - free for personal and commercial use.

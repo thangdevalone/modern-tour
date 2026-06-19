@@ -103,6 +103,32 @@ Modern Tour uses pure CSS variables for theming. You don't need to import any CS
 }
 ```
 
+### CSS Classes Reference
+
+Use these classes to customize individual parts of the tour UI:
+
+| Element | CSS Class |
+|---------|-----------|
+| Next / "Got it!" button | `.framer-tour-btn-primary` |
+| Back button | `.framer-tour-btn-secondary` |
+| Close (×) button | `.framer-tour-close` |
+| All buttons (shared base) | `.framer-tour-btn` |
+| Tooltip content wrapper | `.framer-tour-content` |
+| Step title | `.framer-tour-title` |
+| Step description | `.framer-tour-description` |
+| Footer row | `.framer-tour-footer` |
+| Progress text ("Step 1 of 3") | `.framer-tour-progress` |
+| Navigation button group | `.framer-tour-navigation` |
+
+Example — make the Next/"Got it!" button blue:
+
+```css
+.framer-tour-btn-primary {
+  background: #2563eb !important;
+  color: #ffffff !important;
+}
+```
+
 ---
 
 ## Advanced Usage
@@ -186,6 +212,7 @@ To create a tour that spans multiple routes/pages, assign a `route` to your step
 | `animation` | `string` / `Config` | `'smooth'` | Preset (`fade`, `scale`, `slide`, `bounce`, `smooth`) or custom Framer Motion config. |
 | `components` | `Object` | `undefined` | Custom component overrides (e.g. `{ TooltipContent: MyReactComponent }`). |
 | `waitForTargetTimeout` | `number` | `3000` | Max milliseconds to wait for a lazy-loaded target element. |
+| `stepDelay` | `number` | `0` | Delay in ms before measuring target position. Useful when targets are inside animated containers (dropdowns, modals). |
 | `keyboardNavigation` | `boolean` | `true` | Allow `ArrowLeft`, `ArrowRight`, `Enter`, and `Escape` controls. |
 | `closeOnOverlayClick` | `boolean` | `true` | Close tour when user clicks the dark background. |
 | `spotlightPadding` | `number` | `8` | Pixels of padding around the highlighted target element. |
@@ -200,9 +227,31 @@ To create a tour that spans multiple routes/pages, assign a `route` to your step
 | `title` | `ReactNode` | Optional heading text. |
 | `position` | `string` | Preferred placement (`top`, `bottom`, `left`, `right` and `-start`/`-end` variations). Defaults to `bottom`. |
 | `route` | `string` | Helpful meta-field to trigger route changes on specific steps. |
+| `delay` | `number` | Delay in ms before positioning tooltip after target is found. Overrides global `stepDelay`. Useful for animated dropdowns/modals. |
 | `spotlightPadding` | `number` | Step-specific padding, overrides the global setting. |
 | `onActive` | `() => void` | Callback triggered exactly when this step becomes visible. |
 | `onLeave` | `() => void` | Callback triggered when leaving this step. |
+
+### 4. Touring Animated UI Elements (Dropdowns, Modals)
+If your target element is inside a dropdown, modal, or accordion that has an opening animation, the tooltip might position incorrectly because the element hasn't finished animating. Use `stepDelay` or per-step `delay` to wait:
+
+```tsx
+<TourProvider options={{
+  steps: [
+    { target: '#menu-btn', content: 'Click to open the menu' },
+    {
+      target: '#menu-item-settings',
+      content: 'Here are your settings',
+      delay: 300, // Wait 300ms for dropdown animation to finish
+    },
+  ],
+  // Or set globally for all steps:
+  // stepDelay: 300,
+  onStepChange: (stepIndex) => {
+    if (stepIndex === 1) openDropdown(); // Trigger the dropdown
+  }
+}}>
+```
 
 ---
 
