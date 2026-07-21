@@ -1,5 +1,17 @@
 # modern-tour
 
+## 0.3.1
+
+### Patch Changes
+
+- fix: smooth step transitions and smart scrolling
+
+  - **Smooth tooltip transitions**: Tooltip now slides to new position with spring animation between steps instead of snapping (destroying and recreating). The position spring matches the spotlight's spring for synchronized movement.
+  - **Smooth spotlight transitions**: Spotlight highlight now seamlessly animates between step targets without flickering.
+  - **Smart scroll behavior**: Skip unnecessary page scrolling when the target element is already visible in the viewport. Elements that are in view will highlight instantly without page jumps.
+  - Removed `layout="position"` and per-step key remounting from Tooltip for cleaner animation behavior.
+  - Reduced step transition delay from 100ms to ~16ms (1 frame) when no scrolling is needed.
+
 ## 0.3.0
 
 ### Minor Changes

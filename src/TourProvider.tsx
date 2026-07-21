@@ -77,16 +77,29 @@ export function TourProvider({ children, options }: TourProviderProps) {
             if (isCancelled) return false;
             const target = document.querySelector(step.target);
             if (target) {
-                // Scroll target into view
-                target.scrollIntoView({
-                    behavior: mergedOptions.scrollBehavior,
-                    block: 'center',
-                    inline: 'nearest',
-                });
+                // Only scroll if the target is not already visible in the viewport
+                const rect = target.getBoundingClientRect();
+                const margin = mergedOptions.scrollMargin ?? 100;
+                const isInViewport =
+                    rect.top >= margin &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight - margin) &&
+                    rect.right <= window.innerWidth;
+
+                if (!isInViewport) {
+                    target.scrollIntoView({
+                        behavior: mergedOptions.scrollBehavior,
+                        block: 'center',
+                        inline: 'nearest',
+                    });
+                }
 
                 // Use per-step delay, fallback to global stepDelay, then add base scroll delay
                 const stepDelay = step.delay ?? mergedOptions.stepDelay ?? 0;
-                const totalDelay = Math.max(100, 100 + stepDelay);
+                // Skip scroll delay if element was already in viewport
+                const totalDelay = isInViewport
+                    ? Math.max(16, stepDelay)
+                    : Math.max(100, 100 + stepDelay);
 
                 // Wait for scroll + animation to complete, then measure rect
                 timeoutId = setTimeout(() => {
@@ -256,9 +269,9 @@ export function TourProvider({ children, options }: TourProviderProps) {
                     />
                 )}
             </AnimatePresence>
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
                 {isOpen && targetRect && step && (
-                    <Tooltip key={`tour-tooltip-${currentStep}`} />
+                    <Tooltip key="tour-tooltip" />
                 )}
             </AnimatePresence>
         </TourContext.Provider>

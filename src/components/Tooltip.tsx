@@ -157,12 +157,16 @@ function clampToViewport(
 }
 
 /**
- * Tooltip component that displays step content
+ * Tooltip component that displays step content.
+ *
+ * Uses a stable identity (no per-step key) so Framer Motion can spring-animate
+ * the tooltip's position between steps instead of destroying and recreating it.
+ * The position spring matches the Spotlight's spring for synchronized movement.
  */
 export function Tooltip() {
     const { step, targetRect, options, currentStep } = useTour();
     const tooltipRef = useRef<HTMLDivElement>(null);
-    const [clampedPosition, setClampedPosition] = useState<{ left: number; top: number; maxHeight?: number } | null>(null);
+    const [tooltipSize, setTooltipSize] = useState<{ width: number; height: number } | null>(null);
 
     const animation = getAnimationConfig(options.animation);
 
@@ -179,68 +183,74 @@ export function Tooltip() {
         };
     }, [targetRect, step]);
 
-    // Measure tooltip and clamp to viewport after render
+    // Measure tooltip dimensions after render for accurate clamping
     useLayoutEffect(() => {
-        if (!tooltipRef.current || !calculatedData || !targetRect) {
-            setClampedPosition(null);
-            return;
-        }
+        if (!tooltipRef.current || !calculatedData || !targetRect) return;
 
-
-        // Use offsetWidth/offsetHeight to get the unscaled dimensions
-        // because getBoundingClientRect() is affected by Framer Motion's scale animation
-        const tooltipWidth = tooltipRef.current.offsetWidth;
-        const tooltipHeight = tooltipRef.current.offsetHeight;
-
-        // Calculate initial position based on adjusted position type
-        let initialLeft = calculatedData.left;
-        let initialTop = calculatedData.top;
-
-        // Adjust for transform that would have been applied
-        const pos = calculatedData.adjustedPosition;
-        if (pos === 'top' || pos === 'bottom') {
-            initialLeft -= tooltipWidth / 2;
-        }
-        if (pos === 'top' || pos.startsWith('top')) {
-            initialTop -= tooltipHeight;
-        }
-        if (pos === 'left' || pos.startsWith('left')) {
-            initialLeft -= tooltipWidth;
-        }
-        if (pos.includes('end') && (pos.startsWith('top') || pos.startsWith('bottom'))) {
-            initialLeft -= tooltipWidth;
-        }
-        if (pos === 'left' || pos === 'right') {
-            initialTop -= tooltipHeight / 2;
-        }
-        if (pos.includes('end') && (pos.startsWith('left') || pos.startsWith('right'))) {
-            initialTop -= tooltipHeight;
-        }
-
-        // Clamp to viewport
-        const clamped = clampToViewport(initialLeft, initialTop, tooltipWidth, tooltipHeight);
-        setClampedPosition(clamped);
+        const w = tooltipRef.current.offsetWidth;
+        const h = tooltipRef.current.offsetHeight;
+        setTooltipSize((prev) => {
+            if (prev && prev.width === w && prev.height === h) return prev;
+            return { width: w, height: h };
+        });
     }, [calculatedData, currentStep, targetRect]);
 
     if (!step || !targetRect || !calculatedData) return null;
 
-    // Use maxHeight from clamping only (when tooltip is taller than viewport)
-    const dynamicMaxHeight = clampedPosition?.maxHeight
-        ? `${clampedPosition.maxHeight}px`
-        : undefined;
+    // Use measured tooltip dimensions, or estimated size on first render
+    const effectiveWidth = tooltipSize?.width ?? Math.min(320, window.innerWidth - 32);
+    const effectiveHeight = tooltipSize?.height ?? 180;
+
+    // Compute absolute pixel position (no CSS transforms needed)
+    let finalLeft = calculatedData.left;
+    let finalTop = calculatedData.top;
+    const pos = calculatedData.adjustedPosition;
+
+    if (pos === 'top' || pos === 'bottom') {
+        finalLeft -= effectiveWidth / 2;
+    }
+    if (pos === 'top' || pos.startsWith('top')) {
+        finalTop -= effectiveHeight;
+    }
+    if (pos === 'left' || pos.startsWith('left')) {
+        finalLeft -= effectiveWidth;
+    }
+    if (pos.includes('end') && (pos.startsWith('top') || pos.startsWith('bottom'))) {
+        finalLeft -= effectiveWidth;
+    }
+    if (pos === 'left' || pos === 'right') {
+        finalTop -= effectiveHeight / 2;
+    }
+    if (pos.includes('end') && (pos.startsWith('left') || pos.startsWith('right'))) {
+        finalTop -= effectiveHeight;
+    }
+
+    // Clamp to viewport
+    const clamped = clampToViewport(finalLeft, finalTop, effectiveWidth, effectiveHeight);
+    const dynamicMaxHeight = clamped.maxHeight ? `${clamped.maxHeight}px` : undefined;
+
+    // Spring transition matching spotlight for synchronized movement between steps
+    const positionSpring = { type: 'spring' as const, stiffness: 300, damping: 30 };
 
     return (
         <motion.div
             ref={tooltipRef}
-            key={`tooltip-${currentStep}`}
             className="framer-tour-tooltip"
-            layout="position"
-            initial={animation.initial}
-            animate={animation.animate}
+            initial={{
+                ...animation.initial,
+                left: clamped.left,
+                top: clamped.top,
+            }}
+            animate={{
+                ...animation.animate,
+                left: clamped.left,
+                top: clamped.top,
+            }}
             exit={animation.exit}
             transition={{
                 ...animation.transition,
-                layout: { type: 'tween', duration: 0.18, ease: [0.25, 0.1, 0.25, 1.0] },
+                left: positionSpring,
+                top: positionSpring,
             }}
             style={{
                 position: 'fixed',
@@ -249,17 +259,6 @@ export function Tooltip() {
                 maxHeight: dynamicMaxHeight,
                 display: 'flex',
                 flexDirection: 'column',
-                // Use clamped position if available, otherwise use calculated position with transform
-                ...(clampedPosition
-                    ? {
-                        left: clampedPosition.left,
-                        top: clampedPosition.top,
-                    }
-                    : {
-                        left: calculatedData.left,
-                        top: calculatedData.top,
-                        transform: getTransform(calculatedData.adjustedPosition),
-                    }),
                 transformOrigin: calculatedData.transformOrigin,
             }}
             onClick={(e) => e.stopPropagation()}
@@ -273,7 +272,7 @@ export function Tooltip() {
                     boxShadow: 'var(--tour-shadow, 0 10px 15px -3px rgb(0 0 0 / 0.1))',
                     border: 'var(--tour-border-width, 1px) solid var(--tour-border, #e4e4e7)',
                     overflow: 'hidden',
-                    overflowY: clampedPosition?.maxHeight ? 'auto' : undefined,
+                    overflowY: clamped.maxHeight ? 'auto' : undefined,
                 }}
             >
                 {options.components?.TooltipContent ? (
@@ -285,25 +284,3 @@ export function Tooltip() {
         </motion.div>
     );
 }
-
-/**
- * Get CSS transform for initial positioning (before clamping)
- */
-function getTransform(position: TooltipPosition): string {
-    const transforms: Record<string, string> = {
-        'top': 'translate(-50%, -100%)',
-        'top-start': 'translateY(-100%)',
-        'top-end': 'translate(-100%, -100%)',
-        'bottom': 'translateX(-50%)',
-        'bottom-start': 'none',
-        'bottom-end': 'translateX(-100%)',
-        'left': 'translate(-100%, -50%)',
-        'left-start': 'translateX(-100%)',
-        'left-end': 'translate(-100%, -100%)',
-        'right': 'translateY(-50%)',
-        'right-start': 'none',
-        'right-end': 'translateY(-100%)',
-    };
-    return transforms[position] || 'none';
-}
-
