@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 import { resolve } from 'path';
+import { copyFileSync } from 'fs';
 
 export default defineConfig({
     plugins: [
@@ -10,6 +11,14 @@ export default defineConfig({
         dts({
             insertTypesEntry: true,
             rollupTypes: true,
+            // `exports.require.types` points to dist/index.d.cts, which the
+            // plugin does not emit — duplicate the rolled-up declarations.
+            afterBuild: () => {
+                copyFileSync(
+                    resolve(__dirname, 'dist/index.d.ts'),
+                    resolve(__dirname, 'dist/index.d.cts'),
+                );
+            },
         }),
         cssInjectedByJsPlugin(),
     ],
